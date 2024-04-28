@@ -11,6 +11,18 @@
 - **Пользователь**: Говорит фразу или предложения.
 - **Приложение**: Записывает аудио, преобразует его в текст и отображает результат.
 
+plantuml
+@startuml
+left to right direction
+actor User as "Пользователь"
+usecase UC1 as "Запись и перевод в текст"
+usecase UC2 as "Перевод в текст из файла"
+usecase UC3 as "Перевод в текст и на другой язык"
+User --> UC1
+User --> UC2
+User --> UC3
+@enduml
+
 
 ![image](https://github.com/Retnug228/Lab3Orpo/assets/140345168/b4ee2758-9191-4b11-b23c-adfcf9215c06)
 
