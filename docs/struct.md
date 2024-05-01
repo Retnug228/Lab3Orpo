@@ -1,22 +1,35 @@
 # Структурные модели
 
-## Описание внутренней структуры приложения
+Этот документ описывает внутреннюю структуру приложения с использованием диаграмм классов и объектов/компонентов. Диаграммы выполнены с помощью PlantUML и Mermaid, позволяя визуализировать архитектурные решения и шаблоны проектирования, применяемые в проекте.
 
-Приложение для распознавания речи состоит из нескольких основных компонентов, включая загрузку аудио данных, предобработку, обучение нейронной сети и предсказание.
+## Диаграмма классов
 
-### Диаграмма классов
+### Описание
+Диаграмма классов показывает структуру основных классов в модуле train_network.py, их взаимосвязи и методы.
 
 
-[![](https://mermaid.ink/img/pako:eNp1kkFqwzAQRa8itEqpcwEvCoUsGyh404XBCGuSmNiSK8uUEAxtumyhV2lKQwshyRWkG3Vkh-A4rha2PH_-G81YSxpLDtSnccqKYpSwqWJZKAiuOkJuS57IEdPsTjIOiiwb0a3rQKtETMkkSSHKmZ61pBSzI-a8EUfz4KrRqjbaUe8V5ErGUBTynJ2fhAbgHn2QIAeIZ2NsIm37hwE8liB0wlKSObGF1oolIhKgn6SaDx48svCIKLOoBkLRV2WMjrPjZRhoNdVsurMaDm8um_SJ2duVOdhn82m-zNZ-mI1dEfONnzuzs29m09AunA7Xbvc_kgtskLc361pa12knek-puj2H73aAJX7tizkga2vfzY99dSU6ps6ZegzUoxkonBnHm1aPMaR6BhmE1MctZ2oe0lBUmMdKLYOFiKmvVQkeLXP883C8mNSfsLTAKPBESzU-Xl33qv4AjFca5g?type=png)](https://mermaid.live/edit#pako:eNp1kkFqwzAQRa8itEqpcwEvCoUsGyh404XBCGuSmNiSK8uUEAxtumyhV2lKQwshyRWkG3Vkh-A4rha2PH_-G81YSxpLDtSnccqKYpSwqWJZKAiuOkJuS57IEdPsTjIOiiwb0a3rQKtETMkkSSHKmZ61pBSzI-a8EUfz4KrRqjbaUe8V5ErGUBTynJ2fhAbgHn2QIAeIZ2NsIm37hwE8liB0wlKSObGF1oolIhKgn6SaDx48svCIKLOoBkLRV2WMjrPjZRhoNdVsurMaDm8um_SJ2duVOdhn82m-zNZ-mI1dEfONnzuzs29m09AunA7Xbvc_kgtskLc361pa12knek-puj2H73aAJX7tizkga2vfzY99dSU6ps6ZegzUoxkonBnHm1aPMaR6BhmE1MctZ2oe0lBUmMdKLYOFiKmvVQkeLXP883C8mNSfsLTAKPBESzU-Xl33qv4AjFca5g)
+[![](https://mermaid.ink/img/pako:eNptUclqwzAQ_RWhk0vtH9ChUAg9NbmUQg8GMZUmtYgWo4WQBv97R7YPjukcNGLmzXuz3LkKGrngykJKBwM_EVzvGdkcYa9Fm3CADO8BNEZ2X5LVni2FJFSA1IRozsaiHCEPTxvQGHGMQWFKC6g-a37aCp2wRLAnzNcQL1uZzlGHdsOYIxgv_YJsvlp2a5kvTs48mFqGY1AD-W_IapDJ_OJ_gkdieRjHUaB5RO6n77qXXaOC1TR7s-G6lMy0FbevFeyTuuMtdxhJStPSZ_We5wEd9lzQV0O89Lz3E-Gg5PBx84qLHAu2vIy0O1xvxMUZbKIoapNDPK5XrG76A-IDlr8?type=png)](https://mermaid.live/edit#pako:eNptUclqwzAQ_RWhk0vtH9ChUAg9NbmUQg8GMZUmtYgWo4WQBv97R7YPjukcNGLmzXuz3LkKGrngykJKBwM_EVzvGdkcYa9Fm3CADO8BNEZ2X5LVni2FJFSA1IRozsaiHCEPTxvQGHGMQWFKC6g-a37aCp2wRLAnzNcQL1uZzlGHdsOYIxgv_YJsvlp2a5kvTs48mFqGY1AD-W_IapDJ_OJ_gkdieRjHUaB5RO6n77qXXaOC1TR7s-G6lMy0FbevFeyTuuMtdxhJStPSZ_We5wEd9lzQV0O89Lz3E-Gg5PBx84qLHAu2vIy0O1xvxMUZbKIoapNDPK5XrG76A-IDlr8)
 
 
 #### Описание диаграммы классов
 
-- **AudioDataLoader:** Загружает аудио данные из файла.
-- **DataPreprocessor:** Предобрабатывает аудио данные для подготовки к обучению модели.
-- **SpeechModel:** Содержит и обучает нейронную сеть.
+- **load_audio_data:** Загружает аудио данные из файла.
+- **preprocess_data:** Предобрабатывает аудио данные для подготовки к обучению модели.
+- **train_network:** Содержит и обучает нейронную сеть.
 - **Main:** Главный класс, который использует остальные классы для выполнения процесса распознавания речи.
 
-### Диаграмма компонентов
+
+### Диаграмма объектов/компонентов
+
+#### Описание
+Диаграмма компонентов показывает основные компоненты приложения app.py и их взаимодействие.
 
 
+![image](https://github.com/Retnug228/Lab3Orpo/assets/140345168/c966ed27-68ba-4519-a965-935646e711c5)
+
+
+### Общее описание архитектуры
+
+Приложение состоит из двух основных модулей: train_network.py для обработки и обучения нейронной сети на аудиоданных и app.py, который предоставляет графический интерфейс пользователя для взаимодействия с функциональностью перевода аудио. Используется шаблон проектирования MVC, где train_network.py выполняет роль модели, а app.py — контроллера и представления.
+
+Для запуска обучения нейронной сети используется метод train_network, который интегрирует несколько слоев LSTM и функций обратного вызова для сохранения лучшей модели. Пользовательский интерфейс на Tkinter позволяет пользователю записывать аудио и переводить его через вызовы соответствующих функций.
