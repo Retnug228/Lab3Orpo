@@ -25,7 +25,7 @@
 Диаграмма компонентов показывает основные компоненты приложения app.py и их взаимодействие.
 
 
-![image](https://github.com/Retnug228/Lab3Orpo/assets/140345168/c966ed27-68ba-4519-a965-935646e711c5)
+[![].(www.plantuml.com/plantuml/png/VP2nIWD148RxUOgVzF41B2JNH8JOo5g558jPpoDnxzZRL28aQATWQUah79gGg11VuPytSYEA8KK61cRulc66wTJHXZYv7ajbBqOsTsXbas5HmWJhwx6DPK1MLItS25Bq-So6NrpfJ1_15LAzq2aNVEMQym5iZJFpgxvieoHp2RrdmtT-ilbHJLTsDPs1Svtg7T-utYJqYKjzuCVVJDOJkHNfdzh2RsuReDq-IbjnY1YAF7UXteMckmzclMqguileaDghYF8I_tQopAZmqGKSdvySICVvOVhSDm00).
 
 
 ### Общее описание архитектуры
