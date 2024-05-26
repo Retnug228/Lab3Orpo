@@ -1,6 +1,6 @@
 # Структурные модели
 
-Этот документ описывает внутреннюю структуру приложения с использованием диаграмм классов и объектов/компонентов. Диаграммы выполнены с помощью PlantUML и Mermaid, позволяя визуализировать архитектурные решения и шаблоны проектирования, применяемые в проекте.
+Этот документ описывает внутреннюю структуру приложения с использованием диаграмм классов и объектов/компонентов. Диаграммы выполнены с помощью  Mermaid, позволяя визуализировать архитектурные решения и шаблоны проектирования, применяемые в проекте.
 
 ## Диаграмма классов
 
@@ -13,16 +13,13 @@
 
 #### Описание диаграммы классов
 
-- **:** Загружает аудио данные из файла.
-- **preprocess_data:** Предобрабатывает аудио данные для подготовки к обучению модели.
-- **NeuralNetwork:** Содержит и обучает нейронную сеть.
-- **Main:** Главный класс, который использует остальные классы для выполнения процесса распознавания речи.
-
+- **App:** Класс, который отрисовывает и отвечает за действия в пользовательском интерфейсе.
+- **Functional:** Методы и нейронная сеть, которые занимаются переводом из аудио информации в текстовую, а также переводом на другой язык, запись речи и тд.
 
 ### Диаграмма объектов/компонентов
 
 #### Описание
-Диаграмма компонентов показывает основные компоненты приложения app.py и их взаимодействие.
+Диаграмма компонентов показывает основные компоненты приложения ui.py и их взаимодействие.
 
 
 [![](https://mermaid.ink/img/pako:eNrNVslugzAQ_RXLp1YlP8ChUhfl1kubU4WEjDGLCh7L2FKqKP9eA4aAWZrQSzmwzHvDzLwZY06YQsywj2lBquo1J6kkZcCRORoLehICnVpDfTzsDc5QSXIeJvXtAHrWSgFHklGQcRg1T1NYScKrgii2yEjygoUrtDYFG8ZNogUv3vO4E8IlgWA8tAF61t29y1iBxgFGeKWIVPbtOU8dDMQiVLsRHeew5rxGoBlAxdrcEpB9fjnwa3lGKijbICOXFMKI0K_Odg74cIjem3QOnRyjgbJNH6qyOBkDeRY5dRpT8MCOCilzCkErodWf-uFUN1_XC5QRRHBEFWhJWVgQns7BJnrKlAvbYoadWBbFHYx1_a5iblRx63g6iu5NvavTco0u8yXcNttOXonm1BBJMcrpfy7oxiiIyjasbNe3l6HeDXa7x8mC9tHqJ7NzmzgsMscTYNnzH1U3l9r90igfTdrjofmu_PaKSSc8NN8hD93SmHGpbugNHcMeLpk0W3Rs9vVmUAOsMmZ2OOyb25jIrwAH_Gx4RCv4-OYU-0pq5mEtYpOE_Q3AfkKKylhZnCuQb_ZHob54WIJOs54hCP8E6DzOP9zVxcA?type=png)](https://mermaid.live/edit#pako:eNrNVslugzAQ_RXLp1YlP8ChUhfl1kubU4WEjDGLCh7L2FKqKP9eA4aAWZrQSzmwzHvDzLwZY06YQsywj2lBquo1J6kkZcCRORoLehICnVpDfTzsDc5QSXIeJvXtAHrWSgFHklGQcRg1T1NYScKrgii2yEjygoUrtDYFG8ZNogUv3vO4E8IlgWA8tAF61t29y1iBxgFGeKWIVPbtOU8dDMQiVLsRHeew5rxGoBlAxdrcEpB9fjnwa3lGKijbICOXFMKI0K_Odg74cIjem3QOnRyjgbJNH6qyOBkDeRY5dRpT8MCOCilzCkErodWf-uFUN1_XC5QRRHBEFWhJWVgQns7BJnrKlAvbYoadWBbFHYx1_a5iblRx63g6iu5NvavTco0u8yXcNttOXonm1BBJMcrpfy7oxiiIyjasbNe3l6HeDXa7x8mC9tHqJ7NzmzgsMscTYNnzH1U3l9r90igfTdrjofmu_PaKSSc8NN8hD93SmHGpbugNHcMeLpk0W3Rs9vVmUAOsMmZ2OOyb25jIrwAH_Gx4RCv4-OYU-0pq5mEtYpOE_Q3AfkKKylhZnCuQb_ZHob54WIJOs54hCP8E6DzOP9zVxcA)
@@ -31,6 +28,5 @@
 
 ### Общее описание архитектуры
 
-Приложение состоит из двух основных модулей: train_network.py для обработки и обучения нейронной сети на аудиоданных и app.py, который предоставляет графический интерфейс пользователя для взаимодействия с функциональностью перевода аудио. Используется шаблон проектирования MVC, где train_network.py выполняет роль модели, а app.py — контроллера и представления.
+Приложение состоит из двух основных модулей: funcional.py, который производит все действия с аудио и текстом и ui.py, который предоставляет графический интерфейс пользователя для взаимодействия с функциональностью перевода аудио. Используется шаблон проектирования MVC, где functional.py выполняет роль модели, а ui.py — контроллера и представления.
 
-Для запуска обучения нейронной сети используется метод train_network, который интегрирует несколько слоев LSTM и функций обратного вызова для сохранения лучшей модели. Пользовательский интерфейс на Tkinter позволяет пользователю записывать аудио и переводить его через вызовы соответствующих функций.
