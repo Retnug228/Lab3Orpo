@@ -24,9 +24,6 @@ classDiagram
         +stop_recording() : String
         +translate_text(text: String, src_lang: String = 'en', dest_lang: String = 'ru') : String
         +translate_audio_file(file_path: String, src_lang: String = 'en', dest_lang: String = 'ru') : String
-    }
-
-    class Neuronka {
         +audio_to_text(file_path: String) : String
     }
 
@@ -40,7 +37,6 @@ classDiagram
     }
 
     App --> Functional : uses
-    App --> Neuronka : uses
     Functional --> Recorder : uses
     Functional --> Translator : uses
 
