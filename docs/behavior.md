@@ -119,7 +119,7 @@ sequenceDiagram
     participant Functional
     
     User ->> App: Нажать "Перевод на другой язык"
-    App ->> App: open_translate_interface()
+    App ->> App: open_translate()
     User ->> App: Выбрать исходный язык
     App ->> App: set_source_language()
     User ->> App: Выбрать целевой язык
@@ -142,7 +142,7 @@ sequenceDiagram
 **Описание:**
 
 1. **Нажать "Перевод на другой язык"**: Пользователь инициирует процесс перевода.
-2. **open_translate_interface()**: Приложение открывает интерфейс перевода.
+2. **open_translate()**: Приложение открывает интерфейс перевода.
 3. **Выбрать исходный язык**: Пользователь выбирает язык, с которого будет производиться перевод.
 4. **set_source_language()**: Приложение устанавливает исходный язык.
 5. **Выбрать целевой язык**: Пользователь выбирает язык, на который будет производиться перевод.
@@ -169,7 +169,7 @@ sequenceDiagram
     participant Functional
     
     User ->> App: Нажать "Транскрибирование из файла"
-    App ->> App: open_transcribe_interface()
+    App ->> App: open_file_translate()
     User ->> App: Загрузить файл
     App ->> App: choose_file_for_translation_from_audio()
     App ->> Functional: Транскрибирование аудио (transcribe_audio)
@@ -181,7 +181,7 @@ sequenceDiagram
 **Описание:**
 
 1. **Нажать "Транскрибирование из файла"**: Пользователь инициирует процесс транскрибирования из файла.
-2. **open_transcribe_interface()**: Приложение открывает интерфейс транскрибирования.
+2. **open_file_translate()**: Приложение открывает интерфейс транскрибирования.
 3. **Загрузить файл**: Пользователь загружает файл для транскрибирования.
 4. **choose_file_for_translation_from_audio()**: Приложение загружает файл.
 5. **Транскрибирование аудио (transcribe_audio)**: Приложение отправляет аудио файл для транскрибирования.
