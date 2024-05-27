@@ -1,14 +1,54 @@
 # Структурные модели
 
-Этот документ описывает внутреннюю структуру приложения с использованием диаграмм классов и объектов/компонентов. Диаграммы выполнены с помощью  Mermaid, позволяя визуализировать архитектурные решения и шаблоны проектирования, применяемые в проекте.
+Этот документ описывает внутреннюю структуру приложения с использованием диаграмм классов и объектов/компонентов. Диаграммы выполнены с помощью Mermaid, позволяя визуализировать архитектурные решения и шаблоны проектирования, применяемые в проекте.
 
 ## Диаграмма классов
 
 ### Описание
 Диаграмма классов показывает структуру основных классов, их взаимосвязи и методы.
 
+```mermaid
+classDiagram
+    class App {
+        +go_back()
+        +start_recording()
+        +stop_recording()
+        +choose_file_for_translation()
+        +start_audio_recording()
+        +stop_audio_recording()
+        +choose_file_for_translation_from_audio()
+    }
 
-[![](https://mermaid.ink/img/pako:eNqtlN1q6zAMx1_F-KYdJ90DBHbgwNjddrHtagSCjqMmpokVZBv2Qd99dt10Ttd1DOZAYks_SdYfx29SUYOylKoHa681tAxDZUQYO4v4N47iLRni-NNS_R_UZnmR2awDdjWjIm60aY98NH7hUh2RxXqt-_Airh2DsT04TeZEevCNpnNFzgFnStVrpiEFTyHbyuQS3HijIgn9TImfdC1K8eA4TDNm2gPWDp_dMr4mqhCWVd2DaSeLuBILNItCNGjdJw_7xTclkjix_-VOhBFc94vVjhS7Q89kNjDTK23BUWr30y6-SXm_ExN5lpInYxlauIxIa_QrcoYMWjGNHRlM0O1hfbLM414xmhdyH-YyY45SxH9ltfqbH5hSeIt27j6okzuzmMjcf3T2JfOYbypRicuCVweJTimUg5lQxzoleFZulSkyEyQ-spAD8gC6CRfLTsZKug4HrGQZpg3wppKV2QYOvKOHF6Nk6dhjIf3YhOO6v4cmIzY65L7dX1TxU0gm33ayXENvAzGCeSIa9uvtOxfxlGc?type=png)](https://mermaid.live/edit#pako:eNqtlN1q6zAMx1_F-KYdJ90DBHbgwNjddrHtagSCjqMmpokVZBv2Qd99dt10Ttd1DOZAYks_SdYfx29SUYOylKoHa681tAxDZUQYO4v4N47iLRni-NNS_R_UZnmR2awDdjWjIm60aY98NH7hUh2RxXqt-_Airh2DsT04TeZEevCNpnNFzgFnStVrpiEFTyHbyuQS3HijIgn9TImfdC1K8eA4TDNm2gPWDp_dMr4mqhCWVd2DaSeLuBILNItCNGjdJw_7xTclkjix_-VOhBFc94vVjhS7Q89kNjDTK23BUWr30y6-SXm_ExN5lpInYxlauIxIa_QrcoYMWjGNHRlM0O1hfbLM414xmhdyH-YyY45SxH9ltfqbH5hSeIt27j6okzuzmMjcf3T2JfOYbypRicuCVweJTimUg5lQxzoleFZulSkyEyQ-spAD8gC6CRfLTsZKug4HrGQZpg3wppKV2QYOvKOHF6Nk6dhjIf3YhOO6v4cmIzY65L7dX1TxU0gm33ayXENvAzGCeSIa9uvtOxfxlGc)
+    class Functional {
+        +start_recording()
+        +stop_recording() : String
+        +translate_text(text: String, src_lang: String = 'en', dest_lang: String = 'ru') : String
+        +translate_audio_file(file_path: String, src_lang: String = 'en', dest_lang: String = 'ru') : String
+    }
+
+    class Neuronka {
+        +audio_to_text(file_path: String) : String
+    }
+
+    class Recorder {
+        +recorder : sr.Recognizer
+        +microphone : sr.Microphone
+    }
+
+    class Translator {
+        +translator : Translator
+    }
+
+    App --> Functional : uses
+    App --> Neuronka : uses
+    Functional --> Recorder : uses
+    Functional --> Translator : uses
+
+    Recorder : -recorder  sr.Recognizer
+    Recorder : -microphone  sr.Microphone
+
+    Translator : -translator  Translator
+```
 
 
 #### Описание диаграммы классов
@@ -22,7 +62,71 @@
 Диаграмма компонентов показывает основные компоненты приложения ui.py и их взаимодействие.
 
 
-[![](https://mermaid.ink/img/pako:eNrNVslugzAQ_RXLp1YlP8ChUhfl1kubU4WEjDGLCh7L2FKqKP9eA4aAWZrQSzmwzHvDzLwZY06YQsywj2lBquo1J6kkZcCRORoLehICnVpDfTzsDc5QSXIeJvXtAHrWSgFHklGQcRg1T1NYScKrgii2yEjygoUrtDYFG8ZNogUv3vO4E8IlgWA8tAF61t29y1iBxgFGeKWIVPbtOU8dDMQiVLsRHeew5rxGoBlAxdrcEpB9fjnwa3lGKijbICOXFMKI0K_Odg74cIjem3QOnRyjgbJNH6qyOBkDeRY5dRpT8MCOCilzCkErodWf-uFUN1_XC5QRRHBEFWhJWVgQns7BJnrKlAvbYoadWBbFHYx1_a5iblRx63g6iu5NvavTco0u8yXcNttOXonm1BBJMcrpfy7oxiiIyjasbNe3l6HeDXa7x8mC9tHqJ7NzmzgsMscTYNnzH1U3l9r90igfTdrjofmu_PaKSSc8NN8hD93SmHGpbugNHcMeLpk0W3Rs9vVmUAOsMmZ2OOyb25jIrwAH_Gx4RCv4-OYU-0pq5mEtYpOE_Q3AfkKKylhZnCuQb_ZHob54WIJOs54hCP8E6DzOP9zVxcA?type=png)](https://mermaid.live/edit#pako:eNrNVslugzAQ_RXLp1YlP8ChUhfl1kubU4WEjDGLCh7L2FKqKP9eA4aAWZrQSzmwzHvDzLwZY06YQsywj2lBquo1J6kkZcCRORoLehICnVpDfTzsDc5QSXIeJvXtAHrWSgFHklGQcRg1T1NYScKrgii2yEjygoUrtDYFG8ZNogUv3vO4E8IlgWA8tAF61t29y1iBxgFGeKWIVPbtOU8dDMQiVLsRHeew5rxGoBlAxdrcEpB9fjnwa3lGKijbICOXFMKI0K_Odg74cIjem3QOnRyjgbJNH6qyOBkDeRY5dRpT8MCOCilzCkErodWf-uFUN1_XC5QRRHBEFWhJWVgQns7BJnrKlAvbYoadWBbFHYx1_a5iblRx63g6iu5NvavTco0u8yXcNttOXonm1BBJMcrpfy7oxiiIyjasbNe3l6HeDXa7x8mC9tHqJ7NzmzgsMscTYNnzH1U3l9r90igfTdrjofmu_PaKSSc8NN8hD93SmHGpbugNHcMeLpk0W3Rs9vVmUAOsMmZ2OOyb25jIrwAH_Gx4RCv4-OYU-0pq5mEtYpOE_Q3AfkKKylhZnCuQb_ZHob54WIJOs54hCP8E6DzOP9zVxcA)
+```mermaid
+classDiagram
+    class App {
+        +Frame main_frame
+        +Button record_button
+        +Button translate_button
+        +Button file_translate_button
+        +Frame record_frame
+        +Frame translate_frame
+        +Frame file_translate_frame
+        +open_record_translate()
+        +open_translate()
+        +open_file_translate()
+        +start_recording()
+        +stop_recording()
+        +start_audio_recording()
+        +stop_audio_recording()
+        +choose_file_for_translation()
+        +choose_file_for_translation_from_audio()
+        +go_back()
+    }
+
+    class RecordTranslate {
+        +Button start_record_button
+        +Button stop_record_button
+        +Button back_button
+        +Text text_output
+        +start_recording()
+        +stop_recording()
+    }
+
+    class Translate {
+        +Combobox source_lang
+        +Combobox target_lang
+        +Button choose_file_button
+        +Button start_audio_record_button
+        +Button stop_audio_record_button
+        +Button back_button
+        +Text text_output
+        +start_audio_recording()
+        +stop_audio_recording()
+    }
+
+    class FileTranslate {
+        +Button choose_file_button
+        +Button back_button
+        +choose_file_for_translation_from_audio()
+    }
+
+    class funcional {
+        +start_recording()
+        +stop_recording()
+        +start_audio_recording()
+        +stop_audio_recording()
+        +choose_file_for_translation(file_path)
+        +choose_file_for_translation_from_audio(file_path)
+    }
+
+    App --> RecordTranslate : open_record_translate()
+    App --> Translate : open_translate()
+    App --> FileTranslate : open_file_translate()
+    RecordTranslate --> funcional : start_recording(), stop_recording()
+    Translate --> funcional : start_audio_recording(), stop_audio_recording(), choose_file_for_translation(file_path)
+    FileTranslate --> funcional : choose_file_for_translation_from_audio(file_path)
+```
 
 
 
