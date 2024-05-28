@@ -1,17 +1,18 @@
 from pydub import AudioSegment
 import speech_recognition as sr
 from googletrans import Translator
-from transformers import Wav2Vec2ForCTC, Wav2Vec2Tokenizer
-import torch
-import torchaudio
-
+from vosk import Model, KaldiRecognizer
+import json
+import soundfile as sf
 
 recorder = sr.Recognizer()
 microphone = sr.Microphone()
 
-# Load pretrained model and tokenizer
-tokenizer = Wav2Vec2Tokenizer.from_pretrained("facebook/wav2vec2-base-960h")
-model = Wav2Vec2ForCTC.from_pretrained("facebook/wav2vec2-base-960h")
+# Путь к модели Vosk (скачайте модель с официального сайта Vosk и укажите путь к ней)
+vosk_model_path = "vosk-model-small-ru-0.22"
+
+# Загрузите модель Vosk
+vosk_model = Model(vosk_model_path)
 
 
 def start_recording():
@@ -22,9 +23,11 @@ def start_recording():
             f.write(audio.get_wav_data())
     return "recorded_audio.wav"
 
+
 def stop_recording():
     transkription = audio_to_text("recorded_audio.wav")
     return transkription
+
 
 def translate_text(text, src_lang='en', dest_lang='ru'):
     translator = Translator()
@@ -43,17 +46,25 @@ def translate_audio_file(file_path, src_lang='en', dest_lang='ru'):
         translated_text = translate_text(text, src_lang, dest_lang)
     return translated_text
 
+
 def audio_to_text(file_path):
-    # Load audio file and preprocess
-    speech_array, sampling_rate = torchaudio.load(file_path)
-    inputs = tokenizer(speech_array[0].numpy(), return_tensors="pt", padding="longest")
+    # Откройте аудиофайл
+    audio, sample_rate = sf.read(file_path)
 
-    # Perform inference
-    with torch.no_grad():
-        logits = model(inputs.input_values).logits
+    # Инициализируйте распознаватель с моделью и частотой дискретизации
+    recognizer = KaldiRecognizer(vosk_model, sample_rate)
 
-    # Decode predicted ids to text
-    predicted_ids = torch.argmax(logits, dim=-1)
-    transcription = tokenizer.batch_decode(predicted_ids)[0]
+    # Преобразуйте аудиоданные в нужный формат
+    audio_data = audio.tobytes()
+
+    # Распознавание речи
+    recognizer.AcceptWaveform(audio_data)
+    result = recognizer.Result()
+
+    # Преобразование результата из JSON в словарь
+    result_dict = json.loads(result)
+
+    # Извлечение текста из результата
+    transcription = result_dict.get('text', '')
 
     return transcription
