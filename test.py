@@ -43,5 +43,5 @@ class TestFunctionalMethods(unittest.TestCase):
         with self.assertRaises(ValueError):  # Предполагаем, что функция выбрасывает ValueError для некорректных файлов
             fn.choose_file_for_translation("invalid_file.xyz")
 
-if name == "main":
+if __name__ == "main":
     unittest.main()
