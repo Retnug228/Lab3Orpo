@@ -87,10 +87,8 @@ sequenceDiagram
     User ->> App: Нажать "Запись и транскрибирование"
     App ->> App: open_record_translate()
     User ->> App: Нажать "Начать запись"
-    App ->> Functional: start_recording()
-    
+    Functional ->> App: start_recording()
     User ->> App: Нажать "Закончить запись"
-    Functional -->> App: "recorded_audio.wav"
     App ->> App: stop_recording()
     App ->> Functional: Транскрибирование аудио (transcribe_audio)
     Functional -->> App: Вернуть текст
