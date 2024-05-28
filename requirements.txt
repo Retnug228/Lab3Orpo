@@ -2,9 +2,8 @@ unittest-xml-reporting
 coverage
 requests
 pydub
-speech_recognition
+SpeechRecognition
 googletrans
 transformers
 torch
 torchaudio
-tkinter
