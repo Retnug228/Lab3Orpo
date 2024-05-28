@@ -1,6 +1,6 @@
 name: Python application
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
@@ -8,19 +8,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-
+    - uses: actions/checkout@v2
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
         python-version: '3.8'
-
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install pydub speechrecognition googletrans==4.0.0-rc1 transformers torch torchaudio
-
+        pip install -r requirements.txt
+        pip install unittest-xml-reporting coverage
     - name: Run tests
       run: |
-        python -m unittest discover -s tests
+        coverage run -m unittest discover
+        coverage xml
+    - name: Upload coverage to Coveralls
+      uses: coverallsapp/github-action@v1.1.2
+      with:
+        github-token: ${{ secrets.COVERALLS_TOKEN }}
