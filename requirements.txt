@@ -1,3 +1,10 @@
 unittest-xml-reporting
 coverage
 requests
+pydub
+speech_recognition
+googletrans
+transformers
+torch
+torchaudio
+tkinter
