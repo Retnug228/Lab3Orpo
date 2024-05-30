@@ -9,3 +9,4 @@ torch
 torchaudio
 pyaudio
 vosk
+gdown
