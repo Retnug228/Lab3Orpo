@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import filedialog, ttk
+from tkinter import filedialog, ttk, messagebox
 import funcional as fn
 
 
@@ -131,11 +131,15 @@ class App:
         #translated_text = fn.translate_text(text, 'ru', 'ru')
         self.text_output.insert(tk.END, text + "\n")
 
-    def choose_file_for_translation(self):
+    def choose_text_file_for_translation(self):
         file_path = filedialog.askopenfilename()
+        if not file_path.lower().endswith('.txt'):
+            messagebox.showerror("Ошибка", "Пожалуйста, выберите файл с расширением .txt")
+            return
+
         with open(file_path, 'r') as file:
             text = file.read()
-            translated_text = fn.translate_text(text, src=self.source_lang.get(), dest=self.target_lang.get())
+            translated_text = fn.translate_text(text, src_lang=self.source_lang.get(), dest_lang=self.target_lang.get())
             self.text_output.insert(tk.END, translated_text + "\n")
 
     def start_audio_recording(self):
@@ -143,13 +147,17 @@ class App:
 
     def stop_audio_recording(self):
         text = fn.stop_recording()
-        translated_text = fn.translate_text(text, src=self.source_lang.get(), dest=self.target_lang.get())
+        translated_text = fn.translate_text(text, src_lang=self.source_lang.get(), dest_lang=self.target_lang.get())
         self.text_output.insert(tk.END, translated_text + "\n")
 
     def choose_file_for_translation_from_audio(self):
         file_path = filedialog.askopenfilename(filetypes=[("Audio Files", "*.wav *.mp3")])
+        if not file_path.lower().endswith('.wav'):
+            messagebox.showerror("Ошибка", "Пожалуйста, выберите файл с расширением .wav")
+            return
+
         text = fn.audio_to_text(file_path)
-        #translated_text = fn.translate_text(text, 'auto', 'ru')
+        # translated_text = fn.translate_text(text, 'auto', 'ru')
         self.text_output.insert(tk.END, text + "\n")
 
 root = tk.Tk()

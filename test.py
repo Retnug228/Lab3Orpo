@@ -1,6 +1,7 @@
 import unittest
 from unittest.mock import patch, MagicMock
 import funcional as fn
+import ui as ui
 
 class TestFunctionalMethods(unittest.TestCase):
 
@@ -34,14 +35,14 @@ class TestFunctionalMethods(unittest.TestCase):
     @patch('functional.choose_file_for_translation')
     def test_choose_file_for_translation_positive(self, mock_choose_file_for_translation):
         # Позитивный тест для choose_file_for_translation
-        fn.choose_file_for_translation("valid_file.txt")
-        mock_choose_file_for_translation.assert_called_once_with("valid_file.txt")
+        ui.App.choose_file_for_translation_from_audio("valid_file.wav")
+        mock_choose_file_for_translation.assert_called_once_with("valid_file.wav")
 
     @patch('functional.choose_file_for_translation')
     def test_choose_file_for_translation_negative(self, mock_choose_file_for_translation):
         # Негативный тест для choose_file_for_translation
-        with self.assertRaises(ValueError):  # Предполагаем, что функция выбрасывает ValueError для некорректных файлов
-            fn.choose_file_for_translation("invalid_file.xyz")
+        with self.assertRaises(ValueError):
+            ui.App.choose_file_for_translation_from_audio("invalid_file.xyz")
 
 if __name__ == "main":
     unittest.main()
