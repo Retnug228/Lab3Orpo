@@ -10,5 +10,4 @@ torchaudio
 pyaudio
 vosk
 gdown
-os
-zipfile
+
