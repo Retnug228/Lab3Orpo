@@ -13,10 +13,6 @@ jobs:
       run: |
         sudo apt-get install portaudio19-dev
 
-    - name: Install vosk model
-      run: |
-        wget https://disk.yandex.ru/d/g-i6N2cw8X2O-A
-
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
@@ -27,7 +23,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         
-
+    - name: Install vosk model
+      run: |
+        python download_model.py
+        
     - name: Run unit tests
       run: |
         coverage run -m unittest discover
