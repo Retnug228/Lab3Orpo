@@ -9,10 +9,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Download pyaudio
-      run: |
-        sudo apt-get install portaudio19-dev python3-dev
-
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
