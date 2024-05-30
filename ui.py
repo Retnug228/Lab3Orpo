@@ -18,7 +18,7 @@ class App:
                                           command=self.open_translate)
         self.translate_button.pack(pady=10)
 
-        self.file_translate_button = tk.Button(self.main_frame, text="Транскрибирование их файла",
+        self.file_translate_button = tk.Button(self.main_frame, text="Транскрибирование из файла",
                                                command=self.open_file_translate)
         self.file_translate_button.pack(pady=10)
 
@@ -26,7 +26,18 @@ class App:
         self.translate_frame = None
         self.file_translate_frame = None
 
+    def hide_buttons(self):
+        self.record_button.pack_forget()
+        self.file_translate_button.pack_forget()
+        self.translate_button.pack_forget()
+
+    def show_buttons(self):
+        self.record_button.pack()
+        self.file_translate_button.pack()
+        self.translate_button.pack()
+
     def open_record_translate(self):
+        self.hide_buttons()
         if self.record_frame:
             self.record_frame.destroy()
 
@@ -47,6 +58,7 @@ class App:
         self.text_output.pack(pady=10)
 
     def open_translate(self):
+        self.hide_buttons()
         if self.translate_frame:
             self.translate_frame.destroy()
 
@@ -82,6 +94,7 @@ class App:
         self.text_output.pack(pady=10)
 
     def open_file_translate(self):
+        self.hide_buttons()
         if self.file_translate_frame:
             self.file_translate_frame.destroy()
 
@@ -95,6 +108,9 @@ class App:
         self.back_button = tk.Button(self.file_translate_frame, text="Вернуться на главную", command=self.go_back)
         self.back_button.pack(pady=10)
 
+        self.text_output = tk.Text(self.file_translate_frame)
+        self.text_output.pack(pady=10)
+
     def go_back(self):
         if self.record_frame:
             self.record_frame.destroy()
@@ -105,21 +121,22 @@ class App:
         if self.file_translate_frame:
             self.file_translate_frame.destroy()
             self.file_translate_frame = None
+        self.show_buttons()
 
     def start_recording(self):
         fn.start_recording()
 
     def stop_recording(self):
         text = fn.stop_recording()
-        translated_text = fn.translate_text(text, 'ru', 'ru')
-        self.text_output.insert(tk.END, translated_text + "\\n")
+        #translated_text = fn.translate_text(text, 'ru', 'ru')
+        self.text_output.insert(tk.END, text + "\n")
 
     def choose_file_for_translation(self):
         file_path = filedialog.askopenfilename()
         with open(file_path, 'r') as file:
             text = file.read()
             translated_text = fn.translate_text(text, src=self.source_lang.get(), dest=self.target_lang.get())
-            self.text_output.insert(tk.END, translated_text + "\\n")
+            self.text_output.insert(tk.END, translated_text + "\n")
 
     def start_audio_recording(self):
         fn.start_recording()
@@ -127,13 +144,13 @@ class App:
     def stop_audio_recording(self):
         text = fn.stop_recording()
         translated_text = fn.translate_text(text, src=self.source_lang.get(), dest=self.target_lang.get())
-        self.text_output.insert(tk.END, translated_text + "\\n")
+        self.text_output.insert(tk.END, translated_text + "\n")
 
     def choose_file_for_translation_from_audio(self):
         file_path = filedialog.askopenfilename(filetypes=[("Audio Files", "*.wav *.mp3")])
         text = fn.audio_to_text(file_path)
-        translated_text = fn.translate_text(text, 'auto', 'ru')
-        print(translated_text)
+        #translated_text = fn.translate_text(text, 'auto', 'ru')
+        self.text_output.insert(tk.END, text + "\n")
 
 root = tk.Tk()
 app = App(root)
