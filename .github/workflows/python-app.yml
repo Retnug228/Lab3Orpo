@@ -20,18 +20,18 @@ jobs:
 
     - name: Install pip PyAudio
       run: |
-        pip install pyaudio
-
-    - name: Verify installation pyaudio
+        pip install pyaudio pydub
+        
+    - name: Verify installation pyaudio and pydub
       run: |
         python -m pip show pyaudio
+        python -m pip show pydub
 
 
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         xvfb-run -a python -m unittest discover
-        pip install pydub
         pip install -r requirements.txt
         
     - name: Run unit tests
