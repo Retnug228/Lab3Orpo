@@ -1,4 +1,6 @@
 import os
+from tkinter import messagebox
+
 import pyaudio
 import wave
 import json
@@ -49,6 +51,7 @@ def start_recording():
     global is_recording, audio, stream
 
     if is_recording:
+        messagebox.showerror("Предупреждение", "Запись уже идет, не жмакайте.")
         return
 
     is_recording = True
@@ -71,7 +74,7 @@ def stop_recording():
     global is_recording, stream, audio
 
     if not is_recording:
-        print("Запись не идет.")
+        messagebox.showerror("Запись не идет", "Нажмите на кнопку выше, чтобы начать ее.")
         return
 
     is_recording = False
@@ -102,7 +105,7 @@ def translate_text(text, src_lang='en', dest_lang='ru'):
 
 def translate_audio_file(file_path, src_lang='en', dest_lang='ru'):
     """Переводит аудиофайл с одного языка на другой."""
-    text = audio_to_text(file_path, vosk_model_path = 'vosk-model-ru-0.42')
+    text = audio_to_text(file_path, vosk_model_path = 'vosk-model-small-ru-0.22')
     translated_text = translate_text(text, src_lang=src_lang, dest_lang=dest_lang)
     return translated_text
 
@@ -113,7 +116,7 @@ def normalize_audio(input_file):
     normalized_audio = audio_segment.apply_gain(change_in_dBFS)
     normalized_audio.export(input_file, format="wav")
 
-def audio_to_text(input_file, vosk_model_path = 'vosk-model-ru-0.42'):
+def audio_to_text(input_file, vosk_model_path = 'vosk-madel-small-ru-0.22'):
     """Преобразует аудиофайл в текстовую транскрипцию."""
     # Нормализуем аудио
     normalize_audio(input_file)
@@ -149,11 +152,4 @@ def audio_to_text(input_file, vosk_model_path = 'vosk-model-ru-0.42'):
 
     # Возвращаем транскрипцию
     return ' '.join(result)
-
-def convert_audio_format(input_file, output_format='wav'):
-    """Конвертирует аудиофайл в другой формат."""
-    audio_segment = AudioSegment.from_file(input_file)
-    output_file = f"{os.path.splitext(input_file)[0]}.{output_format}"
-    audio_segment.export(output_file, format=output_format)
-    return output_file
 

@@ -22,7 +22,7 @@ jobs:
     - name: Upgrade pip and install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install pyaudio pydub googletrans torch vosk gdown pydrive2 coverage
+        pip install pyaudio pydub googletrans torch vosk gdown pydrive2 coverage translate
 
     - name: Verify installation pyaudio and pydub 
       run: |
