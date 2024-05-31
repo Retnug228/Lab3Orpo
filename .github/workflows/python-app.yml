@@ -23,10 +23,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         
-    - name: Install vosk model
-      run: |
-        python download_model.py
-        
     - name: Run unit tests
       run: |
         coverage run -m unittest discover
