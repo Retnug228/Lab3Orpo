@@ -7,7 +7,6 @@ googletrans
 transformers
 torch
 torchaudio
-pyaudio
 vosk
 gdown
 pydrive2
