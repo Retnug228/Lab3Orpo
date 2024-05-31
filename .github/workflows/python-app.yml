@@ -20,9 +20,9 @@ jobs:
 
     - name: Install pip PyAudio
       run: |
-        pip install pyaudio pydub
+        pip install pyaudio pydub googletrans torch vosk gdown pydrive2
         
-    - name: Verify installation pyaudio and pydub
+    - name: Verify installation pyaudio and pydub 
       run: |
         python -m pip show pyaudio
         python -m pip show pydub
