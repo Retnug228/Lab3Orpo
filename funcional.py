@@ -12,7 +12,7 @@ is_recording = False
 audio = None
 stream = None
 
-vosk_model_path = "vosk-model-ru-0.42"
+vosk_model_path = "vosk-model-small-ru-0.22"
 
 # Загрузка модель Vosk
 vosk_model = Model(vosk_model_path)
