@@ -31,7 +31,7 @@ jobs:
 
     - name: Run unit tests
       run: |
-        coverage run -m unittest discover
+        xvfb-run -a coverage run -m unittest discover
         coverage xml
 
     - name: Coveralls
