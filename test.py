@@ -2,6 +2,14 @@ import unittest
 from unittest.mock import patch, MagicMock
 import funcional as fn
 import ui as ui
+import os
+import pyaudio
+import wave
+import json
+from pydub import AudioSegment
+from googletrans import Translator
+from vosk import Model, KaldiRecognizer
+import threading
 
 class TestFunctionalMethods(unittest.TestCase):
 
