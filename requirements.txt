@@ -10,4 +10,4 @@ torchaudio
 pyaudio
 vosk
 gdown
-
+pydrive2
