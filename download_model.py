@@ -1,24 +1,55 @@
-import gdown
-import zipfile
 import os
+import shutil
+import zipfile
+from pydrive2.auth import GoogleAuth
+from pydrive2.drive import GoogleDrive
 
-# URL на папку Google Drive
-url = "https://drive.google.com/drive/folders/1RuT6VtnozMdJYvghkaohngeMl74q0pyZ?usp=drive_link"
+# Аутентификация и создание экземпляра GoogleDrive
+gauth = GoogleAuth()
+gauth.LocalWebserverAuth()  # Откроет браузер для аутентификации
+drive = GoogleDrive(gauth)
 
-# Локальное имя файла для сохранения
-output = "vosk-model-ru-0.42.zip"
+# ID папки на Google Drive (замените на ваш собственный ID)
+folder_id = '1RuT6VtnozMdJYvghkaohngeMl74q0pyZ'
 
-# Скачивание с использованием gdown и опции --fuzzy
-gdown.download(url, output, quiet=False, fuzzy=True)
+# Временная директория для скачивания файлов и создания архива
+temp_download_path = './temp_download'
+if not os.path.exists(temp_download_path):
+    os.makedirs(temp_download_path)
 
-# Проверка, что файл скачан
-if os.path.exists(output):
-    try:
-        # Распаковка архива
-        with zipfile.ZipFile(output, 'r') as zip_ref:
-            zip_ref.extractall("extracted_model")
-        print("Model extracted successfully.")
-    except zipfile.BadZipFile:
-        print("Error: The downloaded file is not a valid zip file.")
-else:
-    print("Error: The file was not downloaded.")
+# Скачивание всех файлов из указанной папки
+file_list = drive.ListFile({'q': f"'{folder_id}' in parents and trashed=false"}).GetList()
+
+for file in file_list:
+    print(f'Downloading {file["title"]} from GDrive ({file["id"]})')
+    file.GetContentFile(os.path.join(temp_download_path, file['title']))
+    print(f'File {file["title"]} downloaded successfully.')
+
+# Создание архива из скачанных файлов
+archive_name = 'downloaded_files.zip'
+shutil.make_archive('downloaded_files', 'zip', temp_download_path)
+
+# Директория для разархивирования
+unzip_dir = './unzipped_files'
+if not os.path.exists(unzip_dir):
+    os.makedirs(unzip_dir)
+
+# Разархивирование файлов в указанную директорию
+with zipfile.ZipFile(archive_name, 'r') as zip_ref:
+    zip_ref.extractall(unzip_dir)
+
+# Перемещение файлов из временной директории в целевую директорию без вложенной папки
+for item in os.listdir(unzip_dir):
+    s = os.path.join(unzip_dir, item)
+    d = os.path.join('.', item)
+    if os.path.isdir(s):
+        shutil.move(s, d)
+    else:
+        shutil.copy2(s, d)
+
+# Очистка временных файлов и директорий
+shutil.rmtree(temp_download_path)
+os.remove(archive_name)
+shutil.rmtree(unzip_dir)
+
+print("All files downloaded and extracted successfully.")
