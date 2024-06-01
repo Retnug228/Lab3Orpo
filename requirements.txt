@@ -4,9 +4,6 @@ requests
 pydub
 SpeechRecognition
 googletrans
-transformers
-torch
-torchaudio
 vosk
 gdown
 pydrive2

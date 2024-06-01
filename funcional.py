@@ -1,6 +1,5 @@
 import os
 from tkinter import messagebox
-
 import pyaudio
 import wave
 import json

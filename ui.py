@@ -35,6 +35,7 @@ class App:
         self.choose_file_button = None
         self.stop_audio_record_button = None
         self.start_audio_record_button = None
+        self.text_output = tk.Text
 
     def hide_buttons(self):
         self.record_button.pack_forget()
