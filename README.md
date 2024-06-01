@@ -21,10 +21,10 @@
 Для использования приложения следуйте следующим шагам:
 
 1. Клонируйте репозиторий:
-git clone https://github.com/Retnug228/Lab1.git
+git clone https://github.com/Retnug228/ReText.git
 
 2. Запустите приложение:
-python main.py
+python ui.py
 
 ## Документация
 
