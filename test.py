@@ -1,7 +1,8 @@
 import unittest
 from unittest.mock import patch, MagicMock
-from ui import App 
+from ui import App
 import tkinter as tk
+
 
 class TestApp(unittest.TestCase):
 
@@ -52,7 +53,8 @@ class TestApp(unittest.TestCase):
     @patch('ui.filedialog.askopenfilename', return_value="test.txt")
     @patch('builtins.open', new_callable=unittest.mock.mock_open, read_data="Тестовый текст")
     @patch('ui.App.translate_text', return_value="Переведенный текст")
-    def test_choose_text_file_for_translation_language_positive(self, mock_translate_text, mock_open, mock_askopenfilename):
+    def test_choose_text_file_for_translation_language_positive(self, mock_translate_text, mock_open,
+                                                                mock_askopenfilename):
         # Тест №4.1: Позитивный тест
         self.app.source_lang.set("en")
         self.app.target_lang.set("ru")
@@ -84,5 +86,5 @@ class TestApp(unittest.TestCase):
         self.assertEqual(result, "Переведенный текст")
 
 
-if __name__ == "main":
+if __name__ == '__main__':
     unittest.main()

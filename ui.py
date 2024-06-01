@@ -12,7 +12,7 @@ class App:
         self.main_frame = tk.Frame(root)
         self.main_frame.pack(fill=tk.BOTH, expand=True)
 
-        self.record_button = tk.Button(self.main_frame, text="Запись и трансрибирование",
+        self.record_button = tk.Button(self.main_frame, text="Запись и транскрибирование",
                                        command=self.open_record_translate)
         self.record_button.pack(pady=10)
 
@@ -27,6 +27,14 @@ class App:
         self.record_frame = None
         self.translate_frame = None
         self.file_translate_frame = None
+        self.back_button = None
+        self.start_record_button = None
+        self.stop_record_button = None
+        self.source_lang = None
+        self.target_lang = None
+        self.choose_file_button = None
+        self.stop_audio_record_button = None
+        self.start_audio_record_button = None
 
     def hide_buttons(self):
         self.record_button.pack_forget()
