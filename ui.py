@@ -144,10 +144,11 @@ class App:
 
     # ---------------------------------------------------------------------------------------
     def start_recording(self):
-        fn.start_recording()
-        if not self.text_inserted:
-            self.text_output.insert(tk.END, "Идет запись...")
-        self.text_inserted = True
+        if not fn.is_recording:
+            fn.start_recording()
+            if not self.text_inserted:
+                self.text_output.insert(tk.END, "Идет запись...")
+            self.text_inserted = True
 
     def stop_recording(self):
         self.text_output.delete(1.0, tk.END)

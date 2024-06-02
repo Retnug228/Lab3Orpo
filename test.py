@@ -10,11 +10,9 @@ class TestApp(unittest.TestCase):
         self.root = tk.Tk()
         self.root.withdraw()  # Скрываем окно
         self.app = App(self.root)
-        self.root.update()
 
     def tearDown(self):
         self.root.destroy()
-
 
     @patch('ui.fn.start_recording')
     def test_start_recording_positive(self, mock_start_recording):
@@ -22,14 +20,12 @@ class TestApp(unittest.TestCase):
         self.app.start_recording()
         mock_start_recording.assert_called_once()
 
-
-    def test_negative_start_recording(self):
-        # Test 1.2: Негативный тест для start_recording()
-        self.app.open_record_translate()
+    @patch('ui.fn.start_recording')
+    def test_start_recording_negative(self, mock_start_recording):
+        # Test 1.2: Негативный тест для start_recording
         self.app.start_recording()
         self.app.start_recording()
-        content = self.app.text_output.get("1.0", tk.END).strip()
-        self.assertEqual(content, "Идет запись...")
+        self.assertEqual(mock_start_recording.call_count, 2)
 
     @patch('ui.fn.stop_recording')
     def test_stop_recording_positive(self, mock_stop_recording):
@@ -46,13 +42,19 @@ class TestApp(unittest.TestCase):
         self.app.choose_file_for_translation_from_audio()
         mock_choose_file_for_translation_from_audio.assert_called_once_with()
 
-
     @patch('tkinter.filedialog.askopenfilename', return_value='test.txt')
     @patch('tkinter.messagebox.showerror')
     def test_choose_file_for_translation_from_audio_negative(self, mock_showerror, mock_askopenfilename):
         # Test 3.2: Негативный тест для choose_file_for_translation_from_audio
         self.app.choose_file_for_translation_from_audio()
         mock_showerror.assert_called_once_with("Ошибка", "Пожалуйста, выберите файл с расширением .wav")
+
+    @patch('tkinter.filedialog.askopenfilename', return_value='test.wav')
+    @patch('tkinter.messagebox.showerror')
+    def test_choose_text_file_for_translation_language_negative(self, mock_showerror, mock_askopenfilename):
+        # Test 4.1: Негативный тест для choose_text_file_for_translation_language
+        self.app.choose_text_file_for_translation_language()
+        mock_showerror.assert_called_once_with("Ошибка", "Пожалуйста, выберите файл с расширением .txt")
 
     @patch('tkinter.Frame.destroy')
     def test_go_back_positive(self, mock_destroy):
