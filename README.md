@@ -1,4 +1,4 @@
-[![CI/CD GitHub Actions](https://github.com/Retnug228/ReText/actions/workflows/app.yml/badge.svg)](https://github.com/Retnug228/ReText/actions/workflows/app.yml)
+[![CI/CD GitHub Actions](https://github.com/Retnug228/ReText/actions/workflows/python-app.yml/badge.svg)](https://github.com/Retnug228/ReText/actions/workflows/python-app.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Retnug228_ReText&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Retnug228_ReText)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Retnug228_ReText&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Retnug228_ReText)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Retnug228_ReText&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=Retnug228_ReText)
