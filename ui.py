@@ -3,11 +3,14 @@ from tkinter import filedialog, ttk, messagebox
 import funcional as fn
 from translate import Translator
 
+global text_inserted
 
 class App:
     def __init__(self, root):
         self.root = root
         self.root.title("ReText")
+
+        self.text_inserted = False
 
         self.main_frame = tk.Frame(root)
         self.main_frame.pack(fill=tk.BOTH, expand=True)
@@ -30,12 +33,18 @@ class App:
         self.back_button = None
         self.start_record_button = None
         self.stop_record_button = None
-        self.source_lang = None
-        self.target_lang = None
+
+        languages = ["ru", "en", "es", "fr", "de"]
+
+        self.source_lang = ttk.Combobox(self.translate_frame, values=languages)
+        self.source_lang.set("Выбрать исходный язык")
+        self.target_lang = ttk.Combobox(self.translate_frame, values=languages)
+        self.target_lang.set("Выбрать целевой язык")
+
+        self.text_output = tk.Text(root, height=10, width=40)
         self.choose_file_button = None
         self.stop_audio_record_button = None
         self.start_audio_record_button = None
-        self.text_output = tk.Text
 
     def hide_buttons(self):
         self.record_button.pack_forget()
@@ -80,10 +89,9 @@ class App:
 
         self.source_lang = ttk.Combobox(self.translate_frame, values=languages)
         self.source_lang.set("Выбрать исходный язык")
-        self.source_lang.pack(pady=10)
-
         self.target_lang = ttk.Combobox(self.translate_frame, values=languages)
         self.target_lang.set("Выбрать целевой язык")
+        self.source_lang.pack(pady=10)
         self.target_lang.pack(pady=10)
 
         self.choose_file_button = tk.Button(self.translate_frame, text="Выбор файла",
@@ -137,14 +145,16 @@ class App:
     # ---------------------------------------------------------------------------------------
     def start_recording(self):
         fn.start_recording()
-        self.text_output.insert(tk.END, "Идет запись...")
+        if not self.text_inserted:
+            self.text_output.insert(tk.END, "Идет запись...")
+        self.text_inserted = True
 
     def stop_recording(self):
         self.text_output.delete(1.0, tk.END)
         self.text_output.insert(tk.END, "Запись закончена")
         text = fn.stop_recording()
         self.text_output.delete(1.0, tk.END)
-        self.text_output.insert(tk.END, text + "\n")
+        self.text_output.insert(tk.END, text, "/n")
 
     def stop_lang_recording(self):
         self.text_output.delete(1.0, tk.END)

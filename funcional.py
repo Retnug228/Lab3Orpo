@@ -30,6 +30,7 @@ OUTPUT_FILENAME = os.path.join(OUTPUT_FOLDER, "recorded_audio.wav")  # Имя в
 if not os.path.exists(OUTPUT_FOLDER):
     os.makedirs(OUTPUT_FOLDER)
 
+
 def record():
     """Функция для записи аудио в отдельном потоке."""
     global is_recording, stream
@@ -44,6 +45,7 @@ def record():
         print(f"Ошибка во время записи: {e}")
 
     save_audio(frames)
+
 
 def start_recording():
     """Начинает запись аудио."""
@@ -68,6 +70,7 @@ def start_recording():
     # Запуск записи в отдельном потоке
     threading.Thread(target=record).start()
 
+
 def stop_recording():
     """Останавливает запись аудио."""
     global is_recording, stream, audio
@@ -88,6 +91,7 @@ def stop_recording():
     transcription = audio_to_text(OUTPUT_FILENAME, vosk_model_path)
     return transcription
 
+
 def save_audio(frames):
     """Сохраняет записанное аудио в файл."""
     with wave.open(OUTPUT_FILENAME, 'wb') as wf:
@@ -96,17 +100,20 @@ def save_audio(frames):
         wf.setframerate(RATE)
         wf.writeframes(b''.join(frames))
 
+
 def translate_text(text, src_lang='en', dest_lang='ru'):
     """Переводит текст с одного языка на другой."""
     translator = Translator()
     translated = translator.translate(text, src=src_lang, dest=dest_lang)
     return translated.text
 
+
 def translate_audio_file(file_path, src_lang='en', dest_lang='ru'):
     """Переводит аудиофайл с одного языка на другой."""
-    text = audio_to_text(file_path, vosk_model_path = 'vosk-model-small-ru-0.22')
+    text = audio_to_text(file_path, vosk_model_path='vosk-model-small-ru-0.22')
     translated_text = translate_text(text, src_lang=src_lang, dest_lang=dest_lang)
     return translated_text
+
 
 def normalize_audio(input_file):
     """Нормализует громкость аудиофайла."""
@@ -115,7 +122,8 @@ def normalize_audio(input_file):
     normalized_audio = audio_segment.apply_gain(change_in_dBFS)
     normalized_audio.export(input_file, format="wav")
 
-def audio_to_text(input_file, vosk_model_path = 'vosk-madel-small-ru-0.22'):
+
+def audio_to_text(input_file, vosk_model_path='vosk-madel-small-ru-0.22'):
     """Преобразует аудиофайл в текстовую транскрипцию."""
     # Нормализуем аудио
     normalize_audio(input_file)
@@ -151,4 +159,3 @@ def audio_to_text(input_file, vosk_model_path = 'vosk-madel-small-ru-0.22'):
 
     # Возвращаем транскрипцию
     return ' '.join(result)
-

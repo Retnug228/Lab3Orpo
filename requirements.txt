@@ -7,4 +7,6 @@ googletrans
 vosk
 gdown
 pydrive2
+wave
+translate
 
