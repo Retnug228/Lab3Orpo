@@ -36,11 +36,7 @@ classDiagram
     }
 
     App --> Functional : uses
-    Functional --> Recorder : uses
     Functional --> Translator : uses
-
-    Recorder : -recorder  sr.Recognizer
-    Recorder : -microphone  sr.Microphone
 
     Translator : -translator  Translator
 ```
