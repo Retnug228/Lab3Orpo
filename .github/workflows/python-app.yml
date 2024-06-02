@@ -29,10 +29,10 @@ jobs:
         python -m pip show pyaudio
         python -m pip show pydub
 
-    - name: Coveralls
-      uses: coverallsapp/github-action@v2
-
     - name: Run unit tests
       run: |
         xvfb-run -a coverage run -m unittest discover
         coverage xml
+
+    - name: Coveralls
+      uses: coverallsapp/github-action@v2
