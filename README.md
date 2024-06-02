@@ -1,3 +1,9 @@
+[![CI/CD GitHub Actions](https://github.com/Retnug228/ReText/actions/workflows/app.yml/badge.svg)](https://github.com/Retnug228/ReText/actions/workflows/app.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Retnug228_ReText&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Retnug228_ReText)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Retnug228_ReText&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Retnug228_ReText)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Retnug228_ReText&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=Retnug228_ReText)
+[![Coverage Status](https://coveralls.io/repos/github/Retnug228/ReText/badge.svg?branch=main)](https://coveralls.io/github/Retnug228/ReText?branch=main)
+
 # Приложение для преобразования речи в текст
 
 Добро пожаловать в репозиторий приложения для преобразования речи в текст! Это приложение предназначено для точного преобразования устных слов в письменный текст с помощью передовых алгоритмов и языка программирования Python. Оно идеально подходит для студентов, профессионалов и всех, кто нуждается в преобразовании речи в текст для различных целей, включая транскрипцию, ведение заметок и многое другое.
