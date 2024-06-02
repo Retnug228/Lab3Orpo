@@ -5,7 +5,6 @@ from tkinter import Event
 from ui import App
 import funcional as fn
 
-
 class TestApp(unittest.TestCase):
 
     def setUp(self):
@@ -17,20 +16,23 @@ class TestApp(unittest.TestCase):
         self.root.destroy()
 
     @patch('ui.fn.start_recording')
-    def test_start_recording_positive(self, mock_start_recording):
+    @patch('pyaudio.PyAudio.open', return_value=MagicMock())
+    def test_start_recording_positive(self, mock_pyaudio_open, mock_start_recording):
         # Test 1.1: Позитивный тест для start_recording()
         self.app.start_recording()
         mock_start_recording.assert_called_once()
 
     @patch('ui.fn.start_recording')
-    def test_start_recording_negative(self, mock_start_recording):
+    @patch('pyaudio.PyAudio.open', return_value=MagicMock())
+    def test_start_recording_negative(self, mock_pyaudio_open, mock_start_recording):
         # Test 1.2: Негативный тест для start_recording
         self.app.start_recording()
         self.app.start_recording()
         self.assertEqual(mock_start_recording.call_count, 2)
 
     @patch('ui.fn.stop_recording')
-    def test_stop_recording_positive(self, mock_stop_recording):
+    @patch('pyaudio.PyAudio.open', return_value=MagicMock())
+    def test_stop_recording_positive(self, mock_pyaudio_open, mock_stop_recording):
         # Test 2.1: Позитивный тест для stop_recording()
         self.app.start_recording()
         self.app.stop_recording()
@@ -71,7 +73,6 @@ class TestApp(unittest.TestCase):
         mock_translate.return_value = "Translated text"
         result = self.app.translate_text("Text to translate", "en", "ru")
         self.assertEqual(result, "Translated text")
-
 
 if __name__ == "__main__":
     unittest.main()
