@@ -11,8 +11,8 @@ class TestApp(unittest.TestCase):
         self.root.withdraw()  # Скрываем окно
         self.app = App(self.root)
 
-    def tearDown(self):
-        self.root.destroy()
+    # def tearDown(self):
+    #     self.root.destroy()
 
     @patch('ui.fn.start_recording')
     def test_start_recording_positive(self, mock_start_recording):
@@ -69,7 +69,3 @@ class TestApp(unittest.TestCase):
         mock_translate.return_value = "Translated text"
         result = self.app.translate_text("Text to translate", "en", "ru")
         self.assertEqual(result, "Translated text")
-
-
-if __name__ == '__main__':
-    unittest.main()

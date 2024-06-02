@@ -2,7 +2,6 @@ unittest-xml-reporting
 coverage
 requests
 pydub
-SpeechRecognition
 googletrans
 vosk
 gdown
