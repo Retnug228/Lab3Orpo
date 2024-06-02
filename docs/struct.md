@@ -10,26 +10,25 @@
 ```mermaid
 classDiagram
     class App {
+        +open_record_translate()
+        +open_translate()
+        +open_file_translate()
         +go_back()
         +start_recording()
         +stop_recording()
-        +choose_file_for_translation()
-        +start_audio_recording()
-        +stop_audio_recording()
+        +stop_lang_recording()
+        +choose_file_for_translation_language()
+        +translate_text()
         +choose_file_for_translation_from_audio()
     }
 
     class Functional {
         +start_recording()
+        +record()
+        +save_audio(frames: Array)
+        +normalize_audio(input_file: String)
         +stop_recording() : String
-        +translate_text(text: String, src_lang: String = 'en', dest_lang: String = 'ru') : String
-        +translate_audio_file(file_path: String, src_lang: String = 'en', dest_lang: String = 'ru') : String
-        +audio_to_text(file_path: String) : String
-    }
-
-    class Recorder {
-        +recorder : sr.Recognizer
-        +microphone : sr.Microphone
+        +audio_to_text(file_path: String, vosk_model_path: String) : String
     }
 
     class Translator {
