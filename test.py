@@ -3,9 +3,13 @@ from unittest.mock import patch
 import tkinter as tk
 from tkinter import Event
 from ui import App
-
+import funcional as fn
 
 class TestApp(unittest.TestCase):
+
+    # def test_positive_audio_to_text(self):
+    #     transcription = fn.audio_to_text("test.wav", vosk_model_path = "vosk-model-small-ru-0.22")
+    #     self.assertNotEquals(transcription, '')
 
     def setUp(self):
         self.root = tk.Tk()
@@ -70,3 +74,7 @@ class TestApp(unittest.TestCase):
         mock_translate.return_value = "Translated text"
         result = self.app.translate_text("Text to translate", "en", "ru")
         self.assertEqual(result, "Translated text")
+
+if __name__ == "__main__":
+    unittest.main()
+

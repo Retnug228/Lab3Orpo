@@ -156,6 +156,7 @@ class App:
         text = fn.stop_recording()
         self.text_output.delete(1.0, tk.END)
         self.text_output.insert(tk.END, text, "/n")
+        self.text_inserted = False
 
     def stop_lang_recording(self):
         self.text_output.delete(1.0, tk.END)
@@ -191,7 +192,7 @@ class App:
         # translated_text = fn.translate_text(text, 'auto', 'ru')
         self.text_output.insert(tk.END, text + "\n")
 
-
-root = tk.Tk()
-app = App(root)
-root.mainloop()
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = App(root)
+    root.mainloop()
