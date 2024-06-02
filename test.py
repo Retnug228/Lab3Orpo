@@ -1,6 +1,7 @@
 import unittest
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 import tkinter as tk
+from tkinter import Event
 from ui import App
 
 
@@ -11,8 +12,8 @@ class TestApp(unittest.TestCase):
         self.root.withdraw()  # Скрываем окно
         self.app = App(self.root)
 
-    # def tearDown(self):
-    #     self.root.destroy()
+    def tearDown(self):
+        self.root.destroy()
 
     @patch('ui.fn.start_recording')
     def test_start_recording_positive(self, mock_start_recording):
