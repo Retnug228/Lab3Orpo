@@ -191,7 +191,6 @@ class App:
             return
 
         text = fn.audio_to_text(file_path, fn.vosk_model_path)
-        # translated_text = fn.translate_text(text, 'auto', 'ru')
         self.text_output.insert(tk.END, text + "\n")
 
 
