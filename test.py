@@ -215,6 +215,47 @@ class TestApp(unittest.TestCase):
         mock_pack.assert_any_call(pady=10)
         self.assertEqual(mock_pack.call_count, 3)
 
+    @patch('ui.fn.AudioSegment')
+    def test_normalize_audio(self, mock_audio_segment):
+        # Создаем mock-объект для AudioSegment
+        mock_audio = MagicMock()
+        mock_audio.dBFS = -10.0  # Пример значения громкости в dBFS
+        mock_audio_segment.from_file.return_value = mock_audio
+
+        # Вызываем тестируемую функцию
+        input_file = "test.wav"
+        fn.normalize_audio(input_file)
+
+        # Проверяем, что from_file был вызван с правильным аргументом
+        mock_audio_segment.from_file.assert_called_once_with(input_file)
+
+        # Проверяем изменение громкости
+        change_in_dBFS = -mock_audio.dBFS
+        mock_audio.apply_gain.assert_called_once_with(change_in_dBFS)
+
+        # Проверяем экспорт нормализованного аудио
+        mock_audio.apply_gain.return_value.export.assert_called_once_with(input_file, format="wav")
+
+    @patch('ui.fn.AudioSegment')
+    def test_normalize_audio_no_change_needed(self, mock_audio_segment):
+        # Создаем mock-объект для AudioSegment
+        mock_audio = MagicMock()
+        mock_audio.dBFS = 0.0  # Громкость уже нормализована
+        mock_audio_segment.from_file.return_value = mock_audio
+
+        # Вызываем тестируемую функцию
+        input_file = "test.wav"
+        fn.normalize_audio(input_file)
+
+        # Проверяем, что from_file был вызван с правильным аргументом
+        mock_audio_segment.from_file.assert_called_once_with(input_file)
+
+        # Проверяем, что apply_gain не был вызван, так как громкость уже нормализована
+        mock_audio.apply_gain.assert_called_once_with(0.0)
+
+        # Проверяем экспорт аудио
+        mock_audio.apply_gain.return_value.export.assert_called_once_with(input_file, format="wav")
+
 
 if __name__ == "__main__":
     unittest.main()
