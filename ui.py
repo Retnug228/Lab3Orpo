@@ -5,6 +5,7 @@ from translate import Translator
 
 global text_inserted
 
+
 class App:
     def __init__(self, root):
         self.root = root
@@ -166,6 +167,7 @@ class App:
         trans_text = self.translate_text(text, src_lang=self.source_lang.get(), dest_lang=self.target_lang.get())
         self.text_output.insert(tk.END, trans_text + "\n")
 
+#----------------------------
     def choose_text_file_for_translation_language(self):
         file_path = filedialog.askopenfilename(filetypes=[("Text files", "*.txt")])
         if not file_path.lower().endswith('.txt'):
@@ -177,11 +179,13 @@ class App:
             trans_text = self.translate_text(text, src_lang=self.source_lang.get(), dest_lang=self.target_lang.get())
             self.text_output.insert(tk.END, trans_text + "\n")
 
+#-----------------
     def translate_text(self, text, src_lang='en', dest_lang='ru'):
         translator = Translator(from_lang=src_lang, to_lang=dest_lang)
         translated_text = translator.translate(text)
         return translated_text
 
+#-------------
     def choose_file_for_translation_from_audio(self):
         file_path = filedialog.askopenfilename(filetypes=[("Audio Files", "*.wav *.mp3")])
         if not file_path.lower().endswith('.wav'):
@@ -191,6 +195,7 @@ class App:
         text = fn.audio_to_text(file_path, fn.vosk_model_path)
         # translated_text = fn.translate_text(text, 'auto', 'ru')
         self.text_output.insert(tk.END, text + "\n")
+
 
 if __name__ == "__main__":
     root = tk.Tk()
