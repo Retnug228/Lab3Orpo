@@ -78,6 +78,7 @@ class App:
         self.text_output = tk.Text(self.record_frame)
         self.text_output.pack(pady=10, anchor="n")
 
+    # ------------------
     def open_translate(self):
         self.hide_buttons()
         if self.translate_frame:
@@ -112,7 +113,7 @@ class App:
 
         self.text_output = tk.Text(self.translate_frame)
         self.text_output.pack(pady=10)
-
+#------------------
     def open_file_translate(self):
         self.hide_buttons()
         if self.file_translate_frame:

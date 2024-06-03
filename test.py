@@ -2,6 +2,7 @@ import json
 import unittest
 from unittest.mock import patch, MagicMock, mock_open
 import tkinter as tk
+from tkinter import ttk
 from ui import App
 import funcional as fn
 
@@ -33,10 +34,7 @@ class TestApp(unittest.TestCase):
     def test_open_record_translate(self, mock_pack, mock_destroy, mock_hide_buttons):
         # Устанавливаем начальное состояние
         self.app.record_frame = MagicMock()
-
-        # Вызываем тестируемую функцию
         self.app.open_record_translate()
-
         # Проверяем вызовы
         mock_hide_buttons.assert_called_once()
 
@@ -56,62 +54,42 @@ class TestApp(unittest.TestCase):
         self.assertIsInstance(self.app.text_output, tk.Text)
         mock_pack.assert_any_call(pady=10, anchor="n")
 
-    # @patch('ui.fn.os.path.exists')
-    # @patch('ui.fn.Model')
-    # @patch('ui.fn.wave.open')
-    # @patch('ui.fn.KaldiRecognizer')
-    # @patch('ui.fn.normalize_audio')
-    # def test_audio_to_text_success(self, mock_normalize_audio, mock_KaldiRecognizer, mock_wave_open, mock_Model,
-    #                                mock_exists):
-    #     # Настраиваем mock для os.path.exists
-    #     mock_exists.return_value = True
-    #     # Настраиваем mock для wave.open
-    #     mock_wave_read = MagicMock()
-    #     mock_wave_read.getnchannels.return_value = 1
-    #     mock_wave_read.getsampwidth.return_value = 2
-    #     mock_wave_read.getframerate.return_value = 16000
-    #     mock_wave_read.readframes.side_effect = [b'data', b'']  # Сначала возвращает данные, потом пустую строку
-    #     mock_wave_open.return_value.__enter__.return_value = mock_wave_read
-    #     # Настраиваем mock для KaldiRecognizer
-    #     mock_recognizer = MagicMock()
-    #     mock_recognizer.AcceptWaveform.return_value = True
-    #     mock_recognizer.Result.return_value = json.dumps({"text": "test text"})
-    #     mock_recognizer.FinalResult.return_value = json.dumps({"text": "final text"})
-    #     mock_KaldiRecognizer.return_value = mock_recognizer
-    #     input_file = 'test.wav'
-    #     vosk_model_path = 'vosk-model-small-ru-0.22'
-    #     result = fn.audio_to_text(input_file, vosk_model_path)
-    #     # Проверяем вызовы
-    #     mock_normalize_audio.assert_called_once_with(input_file)
-    #     mock_exists.assert_called_once_with(vosk_model_path)
-    #     mock_Model.assert_called_once_with(vosk_model_path)
-    #     mock_wave_open.assert_called_once_with(input_file, 'rb')
-    #     mock_KaldiRecognizer.assert_called_once_with(mock_Model.return_value, 16000)
-    #     # Проверяем результат
-    #     self.assertEqual(result, 'test text final text')
+    @patch.object(App, 'hide_buttons')
+    @patch.object(tk.Widget, 'pack')
+    @patch.object(ttk.Combobox, 'set')
+    def test_open_translate(self, mock_set, mock_pack, mock_hide_buttons):
+        # Устанавливаем translate_frame для проверки его уничтожения
+        self.app.translate_frame = MagicMock()
 
-    # @patch('ui.fn.start_recording')
-    # @patch('pyaudio.PyAudio.open', return_value=MagicMock())
-    # def test_start_recording_positive(self, mock_pyaudio_open, mock_start_recording):
-    #     # Test 1.1: Позитивный тест для start_recording()
-    #     self.app.start_recording()
-    #     mock_start_recording.assert_called_once()
-    #
-    # @patch('ui.fn.start_recording')
-    # @patch('pyaudio.PyAudio.open', return_value=MagicMock())
-    # def test_start_recording_negative(self, mock_pyaudio_open, mock_start_recording):
-    #     # Test 1.2: Негативный тест для start_recording
-    #     self.app.start_recording()
-    #     self.app.start_recording()
-    #     self.assertEqual(mock_start_recording.call_count, 2)
-    #
-    # @patch('ui.fn.stop_recording')
-    # @patch('pyaudio.PyAudio.open', return_value=MagicMock())
-    # def test_stop_recording_positive(self, mock_pyaudio_open, mock_stop_recording):
-    #     # Test 2.1: Позитивный тест для stop_recording()
-    #     self.app.start_recording()
-    #     self.app.stop_recording()
-    #     mock_stop_recording.assert_called_once()
+        # Вызываем тестируемую функцию
+        self.app.open_translate()
+
+        # Проверяем, что hide_buttons был вызван
+        mock_hide_buttons.assert_called_once()
+
+        # Проверяем создание нового translate_frame и его упаковку
+        self.assertIsInstance(self.app.translate_frame, tk.Frame)
+        mock_pack.assert_any_call(fill=tk.BOTH, expand=True)
+
+        # Проверяем создание и упаковку всех виджетов
+        mock_set.assert_any_call("Выбрать исходный язык")
+        mock_set.assert_any_call("Выбрать целевой язык")
+
+    @patch.object(App, 'hide_buttons')
+    @patch.object(tk.Widget, 'pack')
+    def test_open_file_translate(self, mock_pack, mock_hide_buttons):
+
+        # Устанавливаем file_translate_frame для проверки его уничтожения
+        self.app.file_translate_frame = MagicMock()
+        self.app.open_file_translate()
+
+        # Проверяем, что hide_buttons был вызван
+        mock_hide_buttons.assert_called_once()
+
+        # Проверяем создание нового file_translate_frame и его упаковку
+        self.assertIsInstance(self.app.file_translate_frame, tk.Frame)
+        mock_pack.assert_any_call(fill=tk.BOTH, expand=True)
+
 
     @patch.object(App, 'choose_file_for_translation_from_audio')
     @patch('tkinter.filedialog.askopenfilename', return_value='test.wav')
@@ -183,20 +161,21 @@ class TestApp(unittest.TestCase):
         # Проверяем результат
         self.assertEqual(result, 'texto de prueba')
 
+    @patch.object(tk.Widget, 'pack_forget')
+    def test_hide_buttons(self, mock_pack_forget):
+        # Вызываем тестируемую функцию
+        self.app.hide_buttons()
+        # Проверяем вызовы pack_forget для каждой кнопки
+        mock_pack_forget.assert_any_call()
+        self.assertEqual(mock_pack_forget.call_count, 3)
 
-
-    # def test_hide_and_show_buttons(self):
-    #     self.app.hide_buttons()
-    #     self.root.update_idletasks()  # Обновляем интерфейс после скрытия кнопок
-    #     self.assertFalse(self.app.record_button.winfo_ismapped())
-    #     self.assertFalse(self.app.file_translate_button.winfo_ismapped())
-    #     self.assertFalse(self.app.translate_button.winfo_ismapped())
-    #
-    #     self.app.show_buttons()
-    #     self.root.update_idletasks()  # Обновляем интерфейс после показа кнопок
-    #     self.assertTrue(self.app.record_button.winfo_ismapped())
-    #     self.assertTrue(self.app.file_translate_button.winfo_ismapped())
-    #     self.assertTrue(self.app.translate_button.winfo_ismapped())
+    @patch.object(tk.Widget, 'pack')
+    def test_show_buttons(self, mock_pack):
+        # Вызываем тестируемую функцию
+        self.app.show_buttons()
+        # Проверяем вызовы pack для каждой кнопки с правильными аргументами
+        mock_pack.assert_any_call(pady=10)
+        self.assertEqual(mock_pack.call_count, 3)
 
 
 if __name__ == "__main__":
