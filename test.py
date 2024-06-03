@@ -90,6 +90,48 @@ class TestApp(unittest.TestCase):
         self.assertIsInstance(self.app.file_translate_frame, tk.Frame)
         mock_pack.assert_any_call(fill=tk.BOTH, expand=True)
 
+    @patch('ui.fn.is_recording', False)
+    @patch('ui.fn.start_recording')
+    def test_start_recording(self, mock_start_recording):
+        with patch.object(self.app.text_output, 'insert') as mock_insert:
+            self.app.start_recording()
+
+            mock_start_recording.assert_called_once()
+            mock_insert.assert_called_once_with(tk.END, "Идет запись...")
+            self.assertTrue(self.app.text_inserted)
+
+    # @patch('ui.fn.stop_recording')
+    # @patch('ui.fn.stop_recording')
+    # def test_stop_recording(self, mock_stop_recording):
+    #     mock_stop_recording.return_value = "Тестовый текст"
+    #
+    #     with patch.object(self.app.text_output, 'delete') as mock_delete:
+    #         with patch.object(self.app.text_output, 'insert') as mock_insert:
+    #             self.app.start_recording()
+    #             self.app.stop_recording()
+    #
+    #             mock_delete.assert_any_call(1.0, tk.END)
+    #             mock_insert.assert_any_call(tk.END, "Запись закончена")
+    #             mock_insert.assert_any_call(tk.END, "Тестовый текст\n")
+    #             self.assertFalse(self.app.text_inserted)
+    #
+    # @patch('ui.fn.stop_recording')
+    # def test_stop_lang_recording(self, mock_stop_recording):
+    #     mock_stop_recording.return_value = "Test text"
+    #     self.app.source_lang.set("en")
+    #     self.app.target_lang.set("ru")
+    #
+    #     with patch.object(self.app.text_output, 'delete') as mock_delete:
+    #         with patch.object(self.app.text_output, 'insert') as mock_insert:
+    #             with patch.object(self.app, 'translate_text') as mock_translate_text:
+    #                 mock_translate_text.return_value = "Test text"
+    #
+    #                 self.app.stop_lang_recording()
+    #
+    #                 mock_delete.assert_any_call(1.0, tk.END)
+    #                 mock_insert.assert_any_call(tk.END, "Запись закончена")
+    #                 mock_translate_text.assert_called_once_with("Test text", src_lang="en", dest_lang="ru")
+    #                 mock_insert.assert_any_call(tk.END, "Тестовый текст\n")
 
     @patch.object(App, 'choose_file_for_translation_from_audio')
     @patch('tkinter.filedialog.askopenfilename', return_value='test.wav')
