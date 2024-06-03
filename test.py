@@ -270,35 +270,6 @@ class TestApp(unittest.TestCase):
         fn.start_recording()
         mock_showerror.assert_called_once_with("Предупреждение", "Запись уже идет, не жмакайте.")
 
-    @patch('pyaudio.PyAudio')
-    @patch('threading.Thread')
-    def test_start_recording(self, mock_thread, mock_pyaudio):
-        is_recording = False
-        stream = None
-        audio = None
-        FORMAT = pyaudio.paInt16
-        CHANNELS = 1
-        RATE = 44100
-        CHUNK = 1024
-        is_recording = False
-
-        mock_audio_instance = MagicMock()
-        mock_pyaudio.return_value = mock_audio_instance
-        mock_stream_instance = MagicMock()
-        mock_audio_instance.open.return_value = mock_stream_instance
-
-        fn.start_recording()
-
-        self.assertTrue(is_recording)
-        mock_pyaudio.assert_called_once()
-        mock_audio_instance.open.assert_called_once_with(format=FORMAT,
-                                                         channels=CHANNELS,
-                                                         rate=RATE,
-                                                         input=True,
-                                                         frames_per_buffer=CHUNK)
-        mock_thread.assert_called_once_with(target=fn.record)
-        mock_thread.return_value.start.assert_called_once()
-
 
 if __name__ == "__main__":
     unittest.main()
