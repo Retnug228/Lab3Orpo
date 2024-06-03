@@ -2,6 +2,7 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Retnug228_ReText&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Retnug228_ReText)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Retnug228_ReText&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Retnug228_ReText)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Retnug228_ReText&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=Retnug228_ReText)
+[![Coverage Status](https://coveralls.io/repos/github/Retnug228/ReText/badge.svg)](https://coveralls.io/github/Retnug228/ReText)
 
 # Приложение для преобразования речи в текст
 
