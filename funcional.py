@@ -101,20 +101,6 @@ def save_audio(frames):
         wf.writeframes(b''.join(frames))
 
 
-def translate_text(text, src_lang='en', dest_lang='ru'):
-    """Переводит текст с одного языка на другой."""
-    translator = Translator()
-    translated = translator.translate(text, src=src_lang, dest=dest_lang)
-    return translated.text
-
-
-def translate_audio_file(file_path, src_lang='en', dest_lang='ru'):
-    """Переводит аудиофайл с одного языка на другой."""
-    text = audio_to_text(file_path, vosk_model_path='vosk-model-small-ru-0.22')
-    translated_text = translate_text(text, src_lang=src_lang, dest_lang=dest_lang)
-    return translated_text
-
-
 def normalize_audio(input_file):
     """Нормализует громкость аудиофайла."""
     audio_segment = AudioSegment.from_file(input_file)
