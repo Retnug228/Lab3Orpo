@@ -265,10 +265,16 @@ class TestApp(unittest.TestCase):
         mock_audio.apply_gain.return_value.export.assert_called_once_with(input_file, format="wav")
 
     @patch('ui.fn.messagebox.showerror')
-    def test_recording_already_in_progress(self, mock_showerror):
+    def test_recording_in_progress(self, mock_showerror):
         fn.is_recording = True
         fn.start_recording()
         mock_showerror.assert_called_once_with("Предупреждение", "Запись уже идет, не жмакайте.")
+
+    @patch('ui.fn.messagebox.showerror')
+    def test_stop_recording_without_progress(self, mock_showerror):
+        fn.is_recording = False
+        fn.stop_recording()
+        mock_showerror.assert_called_once_with("Запись не идет", "Нажмите на кнопку выше, чтобы начать ее.")
 
 
 if __name__ == "__main__":
