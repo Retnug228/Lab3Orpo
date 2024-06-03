@@ -153,20 +153,17 @@ class App:
             self.text_inserted = True
 
     def stop_recording(self):
-        self.text_output.delete(1.0, tk.END)
-        self.text_output.insert(tk.END, "Запись закончена")
         text = fn.stop_recording()
         self.text_output.delete(1.0, tk.END)
         self.text_output.insert(tk.END, text, "/n")
         self.text_inserted = False
 
     def stop_lang_recording(self):
-        self.text_output.delete(1.0, tk.END)
-        self.text_output.insert(tk.END, "Запись закончена")
         text = fn.stop_recording()
         self.text_output.delete(1.0, tk.END)
         trans_text = self.translate_text(text, src_lang=self.source_lang.get(), dest_lang=self.target_lang.get())
         self.text_output.insert(tk.END, trans_text + "\n")
+        self.text_inserted = False
 
 #----------------------------
     def choose_text_file_for_translation_language(self):
