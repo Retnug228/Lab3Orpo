@@ -291,6 +291,50 @@ class TestApp(unittest.TestCase):
         # Проверяем экспорт аудио
         mock_audio.apply_gain.return_value.export.assert_called_once_with(input_file, format="wav")
 
+    # @patch('pyaudio.PyAudio')
+    # @patch('threading.Thread')
+    # def test_start_recording(self, mock_thread, mock_pyaudio):
+    #     # Настраиваем mock для pyaudio.PyAudio
+    #     mock_audio_instance = MagicMock()
+    #     mock_pyaudio.return_value = mock_audio_instance
+    #     # Инициализируем глобальную переменную is_recording
+    #     fn.is_recording = False
+    #     # Вызываем функцию start_recording
+    #     fn.start_recording()
+    #     # Проверяем, что is_recording установлена в True
+    #     self.assertTrue(fn.is_recording)
+    #     # Проверяем, что PyAudio.open был вызван
+    #     mock_audio_instance.open.assert_called_once()
+    #     # Проверяем, что threading.Thread был вызван
+    #     mock_thread.assert_called_once()
+
+    @patch('wave.open', new_callable=mock_open)
+    @patch('pyaudio.PyAudio')
+    def test_save_audio(self, mock_pyaudio, mock_wave_open):
+        frames = [b'123', b'456']
+
+        # Инициализируем глобальную переменную audio
+        mock_audio_instance = MagicMock()
+        mock_pyaudio.return_value = mock_audio_instance
+        fn.audio = mock_audio_instance
+
+        # Устанавливаем значения для get_sample_size и RATE
+        fn.FORMAT = MagicMock()
+        fn.RATE = 44100
+        mock_audio_instance.get_sample_size.return_value = 2
+
+        # Создаем поддельный wave файл
+        mock_wave_file = MagicMock()
+        mock_wave_open.return_value.__enter__.return_value = mock_wave_file
+
+        fn.save_audio(frames)
+
+        mock_wave_open.assert_called_once_with('Audio\\recorded_audio.wav', 'wb')
+        mock_wave_file.setnchannels.assert_called_once_with(1)
+        mock_wave_file.setsampwidth.assert_called_once_with(2)
+        mock_wave_file.setframerate.assert_called_once_with(44100)
+        mock_wave_file.writeframes.assert_called_once_with(b'123456')
+
 
 if __name__ == "__main__":
     unittest.main()
