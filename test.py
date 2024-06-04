@@ -117,7 +117,7 @@ class TestApp(unittest.TestCase):
                 self.app.stop_recording()
 
                 mock_delete.assert_called_once_with(1.0, tk.END)
-                mock_insert.assert_called_once_with(tk.END, 'Тестовый текст', '/n')
+                mock_insert.assert_called_once_with(tk.END, 'Тестовый текст\n')
                 self.assertFalse(self.app.text_inserted)
 
     @patch('ui.fn.stop_recording')
