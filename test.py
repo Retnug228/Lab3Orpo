@@ -270,26 +270,26 @@ class TestApp(unittest.TestCase):
         # Проверяем экспорт нормализованного аудио
         mock_audio.apply_gain.return_value.export.assert_called_once_with(input_file, format="wav")
 
-    # @patch('ui.fn.AudioSegment')
-    # def test_normalize_audio_no_change_needed(self, mock_audio_segment):
-    #     # Тест №13.2: Негативный тест normalize_audio()
-    #     # Создаем mock-объект для AudioSegment
-    #     mock_audio = MagicMock()
-    #     mock_audio.dBFS = 0.0  # Громкость уже нормализована
-    #     mock_audio_segment.from_file.return_value = mock_audio
-    #
-    #     # Вызываем тестируемую функцию
-    #     input_file = "test.wav"
-    #     fn.normalize_audio(input_file)
-    #
-    #     # Проверяем, что from_file был вызван с правильным аргументом
-    #     mock_audio_segment.from_file.assert_called_once_with(input_file)
-    #
-    #     # Проверяем, что apply_gain не был вызван, так как громкость уже нормализована
-    #     mock_audio.apply_gain.assert_called_once_with(0.0)
-    #
-    #     # Проверяем экспорт аудио
-    #     mock_audio.apply_gain.return_value.export.assert_called_once_with(input_file, format="wav")
+    @patch('ui.fn.AudioSegment')
+    def test_normalize_audio_no_change_needed(self, mock_audio_segment):
+        # Тест №13.2: Негативный тест normalize_audio()
+        # Создаем mock-объект для AudioSegment
+        mock_audio = MagicMock()
+        mock_audio.dBFS = 0.0  # Громкость уже нормализована
+        mock_audio_segment.from_file.return_value = mock_audio
+
+        # Вызываем тестируемую функцию
+        input_file = "test.wav"
+        fn.normalize_audio(input_file)
+
+        # Проверяем, что from_file был вызван с правильным аргументом
+        mock_audio_segment.from_file.assert_called_once_with(input_file)
+
+        # Проверяем, что apply_gain не был вызван, так как громкость уже нормализована
+        mock_audio.apply_gain.assert_called_once_with(0.0)
+
+        # Проверяем экспорт аудио
+        mock_audio.apply_gain.return_value.export.assert_called_once_with(input_file, format="wav")
 
 
 if __name__ == "__main__":
