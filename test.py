@@ -112,9 +112,27 @@ class TestApp(unittest.TestCase):
             mock_insert.assert_called_once_with(tk.END, "Идет запись...")
             self.assertTrue(self.app.text_inserted)
 
+    @patch('pyaudio.PyAudio')
+    @patch('threading.Thread')
+    def test_funcional_start_recording(self, mock_thread, mock_pyaudio):
+        # Тест №4.2: Позитивный тест start_record()
+        # Настраиваем mock для pyaudio.PyAudio
+        mock_audio_instance = MagicMock()
+        mock_pyaudio.return_value = mock_audio_instance
+        # Инициализируем глобальную переменную is_recording
+        fn.is_recording = False
+        # Вызываем функцию start_recording
+        fn.start_recording()
+        # Проверяем, что is_recording установлена в True
+        self.assertTrue(fn.is_recording)
+        # Проверяем, что PyAudio.open был вызван
+        mock_audio_instance.open.assert_called_once()
+        # Проверяем, что threading.Thread был вызван
+        mock_thread.assert_called_once()
+
     @patch('ui.fn.messagebox.showerror')
     def test_recording_in_progress(self, mock_showerror):
-        # Тест №4.2: Негативный тест start_recording()
+        # Тест №4.3: Негативный тест start_recording()
         fn.is_recording = True
         fn.start_recording()
         mock_showerror.assert_called_once_with("Предупреждение", "Запись уже идет, не жмакайте.")
@@ -290,23 +308,6 @@ class TestApp(unittest.TestCase):
 
         # Проверяем экспорт аудио
         mock_audio.apply_gain.return_value.export.assert_called_once_with(input_file, format="wav")
-
-    # @patch('pyaudio.PyAudio')
-    # @patch('threading.Thread')
-    # def test_start_recording(self, mock_thread, mock_pyaudio):
-    #     # Настраиваем mock для pyaudio.PyAudio
-    #     mock_audio_instance = MagicMock()
-    #     mock_pyaudio.return_value = mock_audio_instance
-    #     # Инициализируем глобальную переменную is_recording
-    #     fn.is_recording = False
-    #     # Вызываем функцию start_recording
-    #     fn.start_recording()
-    #     # Проверяем, что is_recording установлена в True
-    #     self.assertTrue(fn.is_recording)
-    #     # Проверяем, что PyAudio.open был вызван
-    #     mock_audio_instance.open.assert_called_once()
-    #     # Проверяем, что threading.Thread был вызван
-    #     mock_thread.assert_called_once()
 
     @patch('wave.open', new_callable=mock_open)
     @patch('pyaudio.PyAudio')
