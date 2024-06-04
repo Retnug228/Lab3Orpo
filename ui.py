@@ -105,7 +105,7 @@ class App:
         self.start_audio_record_button.pack(pady=10)
 
         self.stop_audio_record_button = tk.Button(self.translate_frame, text="Закончить запись",
-                                                  command=self.stop_recording)
+                                                  command=self.stop_lang_recording)
         self.stop_audio_record_button.pack(pady=10)
 
         self.back_button = tk.Button(self.translate_frame, text="Вернуться на главную", command=self.go_back)
@@ -155,7 +155,7 @@ class App:
     def stop_recording(self):
         text = fn.stop_recording()
         self.text_output.delete(1.0, tk.END)
-        self.text_output.insert(tk.END, text, "/n")
+        self.text_output.insert(tk.END, text + "\n")
         self.text_inserted = False
 
     def stop_lang_recording(self):
