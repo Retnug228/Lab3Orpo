@@ -1,4 +1,3 @@
-import json
 import unittest
 from unittest.mock import patch, MagicMock, mock_open
 import tkinter as tk
@@ -14,6 +13,7 @@ FORMAT = pyaudio.paInt16
 CHANNELS = 1
 RATE = 44100
 CHUNK = 1024
+
 
 class TestApp(unittest.TestCase):
 
@@ -40,6 +40,7 @@ class TestApp(unittest.TestCase):
     @patch.object(tk.Frame, 'destroy')
     @patch.object(tk.Widget, 'pack')
     def test_open_record_translate(self, mock_pack, mock_destroy, mock_hide_buttons):
+        # Тест №1.1: open_record_translate()
         # Устанавливаем начальное состояние
         self.app.record_frame = MagicMock()
         self.app.open_record_translate()
@@ -66,6 +67,7 @@ class TestApp(unittest.TestCase):
     @patch.object(tk.Widget, 'pack')
     @patch.object(ttk.Combobox, 'set')
     def test_open_translate(self, mock_set, mock_pack, mock_hide_buttons):
+        # Тест №2.1: open_translate()
         # Устанавливаем translate_frame для проверки его уничтожения
         self.app.translate_frame = MagicMock()
 
@@ -86,6 +88,7 @@ class TestApp(unittest.TestCase):
     @patch.object(App, 'hide_buttons')
     @patch.object(tk.Widget, 'pack')
     def test_open_file_translate(self, mock_pack, mock_hide_buttons):
+        # Тест №3.1 open_file_translate
 
         # Устанавливаем file_translate_frame для проверки его уничтожения
         self.app.file_translate_frame = MagicMock()
@@ -101,6 +104,7 @@ class TestApp(unittest.TestCase):
     @patch('ui.fn.is_recording', False)
     @patch('ui.fn.start_recording')
     def test_start_recording(self, mock_start_recording):
+        # Тест №4.1 Позитивный тест start_recording()
         with patch.object(self.app.text_output, 'insert') as mock_insert:
             self.app.start_recording()
 
@@ -108,8 +112,16 @@ class TestApp(unittest.TestCase):
             mock_insert.assert_called_once_with(tk.END, "Идет запись...")
             self.assertTrue(self.app.text_inserted)
 
+    @patch('ui.fn.messagebox.showerror')
+    def test_recording_in_progress(self, mock_showerror):
+        # Тест №4.2: Негативный тест start_recording()
+        fn.is_recording = True
+        fn.start_recording()
+        mock_showerror.assert_called_once_with("Предупреждение", "Запись уже идет, не жмакайте.")
+
     @patch('ui.fn.stop_recording')
     def test_stop_recording(self, mock_stop_recording):
+        # Тест №5.1: Позитивный тест stop_recording()
         mock_stop_recording.return_value = "Тестовый текст"
 
         with patch.object(self.app.text_output, 'delete') as mock_delete:
@@ -120,8 +132,16 @@ class TestApp(unittest.TestCase):
                 mock_insert.assert_called_once_with(tk.END, 'Тестовый текст\n')
                 self.assertFalse(self.app.text_inserted)
 
+    @patch('ui.fn.messagebox.showerror')
+    def test_stop_recording_without_progress(self, mock_showerror):
+        # Тест №5.2: Негативный тест stop_recording()
+        fn.is_recording = False
+        fn.stop_recording()
+        mock_showerror.assert_called_once_with("Запись не идет", "Нажмите на кнопку выше, чтобы начать ее.")
+
     @patch('ui.fn.stop_recording')
     def test_stop_lang_recording(self, mock_stop_recording):
+        # Тест №6.1: Позитивный тест stop_lang_recording()
         mock_stop_recording.return_value = "Тестовый текст"
         self.app.source_lang.set("en")
         self.app.target_lang.set("ru")
@@ -141,14 +161,14 @@ class TestApp(unittest.TestCase):
     @patch('tkinter.filedialog.askopenfilename', return_value='test.wav')
     def test_choose_file_for_translation_from_audio_positive(self, mock_askopenfilename,
                                                              mock_choose_file_for_translation_from_audio):
-        # Test 3.1: Позитивный тест для choose_file_for_translation_from_audio
+        # Test 7.1: Позитивный тест для choose_file_for_translation_from_audio
         self.app.choose_file_for_translation_from_audio()
         mock_choose_file_for_translation_from_audio.assert_called_once_with()
 
     @patch('tkinter.filedialog.askopenfilename', return_value='test.txt')
     @patch('tkinter.messagebox.showerror')
     def test_choose_file_for_translation_from_audio_negative(self, mock_showerror, mock_askopenfilename):
-        # Test 3.2: Негативный тест для choose_file_for_translation_from_audio
+        # Test 7.2: Негативный тест для choose_file_for_translation_from_audio
         self.app.choose_file_for_translation_from_audio()
         mock_showerror.assert_called_once_with("Ошибка", "Пожалуйста, выберите файл с расширением .wav")
 
@@ -156,7 +176,7 @@ class TestApp(unittest.TestCase):
     @patch('tkinter.filedialog.askopenfilename', return_value='file.txt')
     @patch('tkinter.messagebox.showerror')
     def test_choose_text_file_for_translation_language(self, mock_showerror, mock_askopenfilename, mock_file):
-        # Test 4.1: Позитивный тест для choose_text_file_for_translation_language
+        # Test 8.1: Позитивный тест для choose_text_file_for_translation_language
         self.app.choose_text_file_for_translation_language()
         mock_askopenfilename.assert_called_once_with(filetypes=[("Text files", "*.txt")])
         mock_showerror.assert_not_called()
@@ -167,19 +187,20 @@ class TestApp(unittest.TestCase):
     @patch('tkinter.filedialog.askopenfilename', return_value='test.wav')
     @patch('tkinter.messagebox.showerror')
     def test_choose_text_file_for_translation_language_negative(self, mock_showerror, mock_askopenfilename):
-        # Test 4.2: Негативный тест для choose_text_file_for_translation_language
+        # Test 8.2: Негативный тест для choose_text_file_for_translation_language
         self.app.choose_text_file_for_translation_language()
         mock_showerror.assert_called_once_with("Ошибка", "Пожалуйста, выберите файл с расширением .txt")
 
     @patch('tkinter.Frame.destroy')
     def test_go_back_positive(self, mock_destroy):
-        # Test 5.1: Позитивный тест для go_back
+        # Test 9.1: Позитивный тест для go_back
         self.app.open_record_translate()
         self.app.go_back()
         mock_destroy.assert_called()
 
     @patch('ui.Translator')
     def test_translate_text_success(self, mock_translator):
+        # Тест №10.1: Позитивный тест tranlate_text()
         # Настраиваем mock для Translator
         mock_instance = MagicMock()
         mock_instance.translate.return_value = 'тестовый текст'
@@ -193,6 +214,7 @@ class TestApp(unittest.TestCase):
 
     @patch('ui.Translator')
     def test_translate_text_different_languages(self, mock_translator):
+        # Тест №10.2: Позитивный тест translate_text()
         # Настраиваем mock для Translator
         mock_instance = MagicMock()
         mock_instance.translate.return_value = 'texto de prueba'
@@ -209,6 +231,7 @@ class TestApp(unittest.TestCase):
 
     @patch.object(tk.Widget, 'pack_forget')
     def test_hide_buttons(self, mock_pack_forget):
+        # Тест №11.1: Позитивный тест hide_buttons()
         # Вызываем тестируемую функцию
         self.app.hide_buttons()
         # Проверяем вызовы pack_forget для каждой кнопки
@@ -217,6 +240,8 @@ class TestApp(unittest.TestCase):
 
     @patch.object(tk.Widget, 'pack')
     def test_show_buttons(self, mock_pack):
+        # Тест №12.1: Позитивный тест show_buttons
+
         # Вызываем тестируемую функцию
         self.app.show_buttons()
         # Проверяем вызовы pack для каждой кнопки с правильными аргументами
@@ -225,6 +250,7 @@ class TestApp(unittest.TestCase):
 
     @patch('ui.fn.AudioSegment')
     def test_normalize_audio(self, mock_audio_segment):
+        # Тест №13.1: Позитивный тест normalize_audio()
         # Создаем mock-объект для AudioSegment
         mock_audio = MagicMock()
         mock_audio.dBFS = -10.0  # Пример значения громкости в dBFS
@@ -246,6 +272,7 @@ class TestApp(unittest.TestCase):
 
     @patch('ui.fn.AudioSegment')
     def test_normalize_audio_no_change_needed(self, mock_audio_segment):
+        # Тест №13.2: Негативный тест normalize_audio()
         # Создаем mock-объект для AudioSegment
         mock_audio = MagicMock()
         mock_audio.dBFS = 0.0  # Громкость уже нормализована
@@ -263,18 +290,6 @@ class TestApp(unittest.TestCase):
 
         # Проверяем экспорт аудио
         mock_audio.apply_gain.return_value.export.assert_called_once_with(input_file, format="wav")
-
-    @patch('ui.fn.messagebox.showerror')
-    def test_recording_in_progress(self, mock_showerror):
-        fn.is_recording = True
-        fn.start_recording()
-        mock_showerror.assert_called_once_with("Предупреждение", "Запись уже идет, не жмакайте.")
-
-    @patch('ui.fn.messagebox.showerror')
-    def test_stop_recording_without_progress(self, mock_showerror):
-        fn.is_recording = False
-        fn.stop_recording()
-        mock_showerror.assert_called_once_with("Запись не идет", "Нажмите на кнопку выше, чтобы начать ее.")
 
 
 if __name__ == "__main__":

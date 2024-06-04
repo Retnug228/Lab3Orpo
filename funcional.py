@@ -4,7 +4,6 @@ import pyaudio
 import wave
 import json
 from pydub import AudioSegment
-from googletrans import Translator
 from vosk import Model, KaldiRecognizer
 import threading
 
@@ -109,7 +108,7 @@ def normalize_audio(input_file):
     normalized_audio.export(input_file, format="wav")
 
 
-def audio_to_text(input_file, vosk_model_path='vosk-madel-small-ru-0.22'):
+def audio_to_text(input_file, vosk_model_path):
     """Преобразует аудиофайл в текстовую транскрипцию."""
     # Нормализуем аудио
     normalize_audio(input_file)
