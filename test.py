@@ -329,7 +329,7 @@ class TestApp(unittest.TestCase):
 
         fn.save_audio(frames)
 
-        mock_wave_open.assert_called_once_with('Audio\\recorded_audio.wav', 'wb')
+        mock_wave_open.assert_called_once_with('Audio/recorded_audio.wav', 'wb')
         mock_wave_file.setnchannels.assert_called_once_with(1)
         mock_wave_file.setsampwidth.assert_called_once_with(2)
         mock_wave_file.setframerate.assert_called_once_with(44100)
